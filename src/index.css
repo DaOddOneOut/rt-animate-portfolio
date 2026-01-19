@@ -1,13 +1,109 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light Theme (Default) */
+
+input, textarea {
+  caret-color: transparent;
+}
+/* index.css */
+.ink-ripple {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  background: rgba(124, 58, 237, 0.3); /* sketch purple ripple */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: rippleFade 0.6s ease-out;
+  z-index: 9999;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@keyframes rippleFade {
+  from {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+.cursor-trail-dot {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: rgba(60, 60, 60, 0.3); /* Light mode: graphite feel */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.3s ease-out, background-color 0.3s ease;
+}
+
+/* Dark mode color override */
+body.dark .cursor-trail-dot {
+  background: rgba(245, 240, 230, 0.4);
+  transition: background-color 0.3s ease;
+}
+
+
+
+button:hover,
+a:hover {
+  filter: drop-shadow(0 0 5px #7c3aed);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+::selection {
+  @apply bg-sketchPurple text-white;
+}
+
+/* Dark Theme */
+body.dark {
+  background-color: #1e1e1e;
+  color: #f5f0e6;
+  background-image: none;
+}
+
+.dark .text-ink {
+  color: #f5f0e6;
+}
+
+.dark .bg-parchment {
+  background-color: #1e1e1e;
+}
+
+.dark .bg-white {
+  background-color: #333333;
+}
+
+.dark .text-graphite {
+  color: #d0cbc3;
+}
+
+.dark .bg-sketchPurple {
+  background-color: #a78bfa;
+}
+
+.dark .text-sketchPurple {
+  color: #a78bfa;
+}
+* {
+  cursor: none !important;
+}
+@media (max-height: 700px) {
+  .home-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
 }
