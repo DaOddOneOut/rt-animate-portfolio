@@ -1,40 +1,44 @@
 // tailwind.config.js
+// Colors and fonts point at CSS variables that the style engine (src/theme) sets at runtime,
+// so every Tailwind class below re-skins automatically when the art style changes.
+const c = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 module.exports = {
-  darkMode: 'class', // Enables dark mode via a 'dark' class
-  content: [
-    "./public/index.html",
-    "./src/**/*.{js,jsx,ts,tsx}"
-  ],
+  darkMode: 'class', // the engine toggles `dark` on <html>
+  content: ['./public/index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       screens: {
-        // Custom screen for mobile landscape responsiveness
+        // mobile landscape
         'xs-landscape': { raw: '(max-height: 450px) and (orientation: landscape)' },
       },
       colors: {
-        parchment: '#f5f0e6',      // Warm paper tone
-        ink: '#2d2d2d',            // Deep sketch line color
-        graphite: '#555555',       // Softer text or accent gray
-        sketchPurple: '#7c3aed'    // Highlight color (like pencil overlay)
+        bg: c('bg'),
+        bg2: c('bg2'),
+        card: c('card'),
+        ink: c('ink'),
+        muted: c('muted'),
+        line: c('line'),
+        accent: c('accent'),
+        'accent-ink': c('accent-ink'),
+        accent2: c('accent2'),
+        accent3: c('accent3'),
+        'on-accent': c('on-accent'),
       },
       fontFamily: {
-        sketch: ['"Fredericka the Great"', 'cursive']
-      },
-      backgroundImage: {
-        'paper-light': "url('/src/assets/paper-texture-light.png')",
-        'paper-dark': "url('/src/assets/paper-texture-dark.png')",
-      },
-      animation: {
-        float: 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 3s ease-in-out infinite'
+        display: ['var(--font-display)'],
+        body: ['var(--font-body)'],
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-12px)' }
-        }
-      }
-    }
+          '50%': { transform: 'translateY(-12px)' },
+        },
+      },
+      animation: {
+        float: 'float 6s ease-in-out infinite',
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };

@@ -1,36 +1,25 @@
 // src/components/ProjectMediaCard.jsx
-import { useEffect, useRef, useState } from "react";
+// The clickable artwork thumbnail: tiny blurred placeholder first, then the card-sized image,
+// and an optional hover preview clip if <slug>.preview.webm|mp4 exists.
+import { useEffect, useRef, useState } from 'react';
 
-export default function ProjectMediaCard({ project, className = "", onClick }) {
-  const { title, image, blur, preview } = project;
+export default function ProjectMediaCard({ project, className = '', onClick }) {
+  const { title, image, thumb, blur, preview } = project;
+  const src = thumb || image;
 
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [hovered, setHovered] = useState(false);
-
   const videoRef = useRef(null);
 
-  // Hover video behavior
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-
     if (hovered) {
-      const play = async () => {
-        try {
-          v.currentTime = 0;
-          await v.play();
-        } catch {
-          // autoplay can fail; ignore
-        }
-      };
-      play();
+      v.currentTime = 0;
+      v.play().catch(() => {}); // autoplay can be refused; that's fine
     } else {
-      try {
-        v.pause();
-        v.currentTime = 0;
-      } catch {
-        // ignore
-      }
+      v.pause();
+      v.currentTime = 0;
     }
   }, [hovered]);
 
@@ -38,65 +27,53 @@ export default function ProjectMediaCard({ project, className = "", onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`relative overflow-hidden rounded-2xl shadow-lg bg-white/5 text-left w-full ${className}`}
+      aria-label={`Open ${title}`}
+      className={`art-frame px-art group relative block w-full overflow-hidden text-left ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      {/* Blur placeholder */}
       {blur && (
         <img
           src={blur}
           alt=""
           aria-hidden="true"
-          className={`absolute inset-0 h-full w-full object-cover scale-105 blur-2xl transition-opacity duration-500 ${imgLoaded ? "opacity-0" : "opacity-100"
-            }`}
           draggable="false"
+          className={`absolute inset-0 h-full w-full scale-105 object-cover blur-2xl transition-opacity duration-500 ${loaded ? 'opacity-0' : 'opacity-100'}`}
         />
       )}
 
-      {/* Main image */}
-      {image ? (
+      {src ? (
         <img
-          src={image}
+          src={src}
           alt={title}
           loading="lazy"
           decoding="async"
-          onLoad={() => setImgLoaded(true)}
-          className={`h-full w-full object-cover transition duration-700 ${imgLoaded ? "opacity-100" : "opacity-0"
-            }`}
           draggable="false"
+          onLoad={() => setLoaded(true)}
+          className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04] ${loaded ? 'opacity-100' : 'opacity-0'}`}
         />
       ) : (
-        <div className="h-full w-full flex items-center justify-center text-sm opacity-70">
-          Missing image
-        </div>
+        <div className="flex h-full w-full items-center justify-center text-sm text-muted">Missing image</div>
       )}
 
-      {/* Hover preview video */}
       {preview && (
         <video
           ref={videoRef}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${hovered ? "opacity-100" : "opacity-0"
-            }`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}
           muted
           playsInline
           loop
           preload="metadata"
         >
-          <source
-            src={preview}
-            type={preview.endsWith(".webm") ? "video/webm" : "video/mp4"}
-          />
+          <source src={preview} type={preview.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
         </video>
       )}
 
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
-
-      {/* Hint */}
-      <div className="absolute bottom-3 right-3 text-xs px-2 py-1 rounded-full bg-black/50 border border-white/10 opacity-0 hover:opacity-100 transition">
-        Click to expand
-      </div>
+      <span className="chip chip-on pointer-events-none absolute bottom-3 right-3 opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+        View
+      </span>
     </button>
   );
 }

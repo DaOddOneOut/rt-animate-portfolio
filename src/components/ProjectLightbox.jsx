@@ -1,148 +1,115 @@
 // src/components/ProjectLightbox.jsx
-import { useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { createPortal } from "react-dom";
+import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { motion } from 'framer-motion';
+import { useStyleEngine } from '../theme/StyleContext';
 
-export default function ProjectLightbox({
-    isOpen,
-    project,
-    onClose,
-    onPrev,
-    onNext,
-    hasPrev,
-    hasNext,
-}) {
-    // Portal target
-    const portalTarget = useMemo(() => {
-        if (typeof document === "undefined") return null;
-        return document.body;
-    }, []);
+export default function ProjectLightbox({ isOpen, project, onClose, onPrev, onNext, hasPrev, hasNext }) {
+  const { styles, active, setMode, busy } = useStyleEngine();
+  const closeBtn = useRef(null);
 
-    useEffect(() => {
-        if (!isOpen) return;
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const previouslyFocused = document.activeElement;
 
-        const onKeyDown = (e) => {
-            const isNavKey =
-                e.key === "Escape" || e.key === "ArrowLeft" || e.key === "ArrowRight";
-            if (!isNavKey) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      } else if (e.key === 'ArrowLeft' && hasPrev) {
+        e.preventDefault();
+        onPrev?.();
+      } else if (e.key === 'ArrowRight' && hasNext) {
+        e.preventDefault();
+        onNext?.();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown, true);
 
-            // block extensions / other listeners
-            e.preventDefault();
-            e.stopPropagation();
-            if (typeof e.stopImmediatePropagation === "function") {
-                e.stopImmediatePropagation();
-            }
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeBtn.current?.focus();
 
-            if (e.key === "Escape") onClose?.();
-            if (e.key === "ArrowLeft" && hasPrev) onPrev?.();
-            if (e.key === "ArrowRight" && hasNext) onNext?.();
-        };
+    return () => {
+      document.removeEventListener('keydown', onKeyDown, true);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus?.();
+    };
+  }, [isOpen, onClose, onPrev, onNext, hasPrev, hasNext]);
 
-        document.addEventListener("keydown", onKeyDown, true);
+  if (!isOpen || !project) return null;
 
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
+  const { title, description, tech, image, preview, style } = project;
+  const projectStyle = style ? styles[style] : null;
+  const canRestyle = projectStyle && style !== active;
 
-        return () => {
-            document.removeEventListener("keydown", onKeyDown, true);
-            document.body.style.overflow = originalOverflow;
-        };
-    }, [isOpen, onClose, onPrev, onNext, hasPrev, hasNext]);
+  return createPortal(
+    <motion.div
+      className="fixed inset-0 flex items-center justify-center p-3 sm:p-6"
+      style={{ zIndex: 2147483000 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lightbox-title"
+    >
+      <div className="absolute inset-0 bg-black/80" onClick={onClose} />
 
-    if (!isOpen || !project || !portalTarget) return null;
+      <motion.div
+        className="card relative flex max-h-[94vh] w-full max-w-5xl flex-col overflow-hidden"
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className="flex items-center justify-between gap-3 border-b-[length:var(--border-w)] border-line px-4 py-3">
+          <h3 id="lightbox-title" className="t-h3 min-w-0 truncate">
+            {title}
+          </h3>
+          <div className="flex shrink-0 items-center gap-2">
+            <button type="button" onClick={onPrev} disabled={!hasPrev} aria-label="Previous project" className="btn btn-ghost !px-3 !py-1.5">
+              ←
+            </button>
+            <button type="button" onClick={onNext} disabled={!hasNext} aria-label="Next project" className="btn btn-ghost !px-3 !py-1.5">
+              →
+            </button>
+            <button ref={closeBtn} type="button" onClick={onClose} aria-label="Close" className="btn !px-3 !py-1.5">
+              ✕
+            </button>
+          </div>
+        </div>
 
-    const { title, description, tech, image, preview } = project;
+        <div className="art-frame relative min-h-0 flex-1 bg-black">
+          {preview ? (
+            <video className="max-h-[60vh] w-full object-contain" controls playsInline>
+              <source src={preview} type={preview.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+            </video>
+          ) : (
+            <img src={image} alt={title} draggable="false" className="mx-auto max-h-[60vh] w-full object-contain" />
+          )}
+        </div>
 
-    const ui = (
-        <AnimatePresence>
-            <motion.div
-                className="fixed inset-0 z-[2147483647] flex items-center justify-center p-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                aria-modal="true"
-                role="dialog"
+        <div className="overflow-y-auto p-4">
+          {description && <p className="mb-3 text-base">{description}</p>}
+          <div className="flex flex-wrap items-center gap-2">
+            {projectStyle && <span className="chip chip-on">{projectStyle.name}</span>}
+            {Array.isArray(tech) && tech.map((t) => <span key={t} className="chip">{t}</span>)}
+          </div>
+          {canRestyle && (
+            <button
+              type="button"
+              disabled={busy}
+              className="btn btn-alt mt-4"
+              onClick={() => {
+                onClose?.();
+                setMode(style);
+              }}
             >
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/80" onClick={onClose} />
-
-                {/* Modal */}
-                <motion.div
-                    className="relative w-full max-w-5xl rounded-2xl overflow-hidden bg-neutral-950 shadow-2xl border border-white/10"
-                    initial={{ scale: 0.96, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.98, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                >
-                    {/* Top bar */}
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-                        <div className="min-w-0">
-                            <h3 className="text-base font-semibold truncate">{title}</h3>
-                            {description && (
-                                <p className="text-xs opacity-70 truncate">{description}</p>
-                            )}
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={onPrev}
-                                disabled={!hasPrev}
-                                className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition disabled:opacity-40 disabled:hover:bg-white/10"
-                                aria-label="Previous project"
-                            >
-                                ←
-                            </button>
-                            <button
-                                onClick={onNext}
-                                disabled={!hasNext}
-                                className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition disabled:opacity-40 disabled:hover:bg-white/10"
-                                aria-label="Next project"
-                            >
-                                →
-                            </button>
-                            <button
-                                onClick={onClose}
-                                className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition"
-                                aria-label="Close"
-                            >
-                                ✕
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Media */}
-                    <div className="relative bg-black">
-                        {preview ? (
-                            <video className="w-full max-h-[70vh] object-contain" controls playsInline>
-                                <source
-                                    src={preview}
-                                    type={preview.endsWith(".webm") ? "video/webm" : "video/mp4"}
-                                />
-                            </video>
-                        ) : (
-                            <img
-                                src={image}
-                                alt={title}
-                                className="w-full max-h-[70vh] object-contain"
-                                draggable="false"
-                            />
-                        )}
-                    </div>
-
-                    {/* Tech chips */}
-                    {Array.isArray(tech) && tech.length > 0 && (
-                        <div className="p-4 border-t border-white/10 flex flex-wrap gap-2">
-                            {tech.map((t) => (
-                                <span key={t} className="text-xs px-2 py-1 rounded-full bg-white/10">
-                                    {t}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </motion.div>
-            </motion.div>
-        </AnimatePresence>
-    );
-
-    return createPortal(ui, portalTarget);
+              Redraw the site in {projectStyle.name}
+            </button>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.body,
+  );
 }
