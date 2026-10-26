@@ -1,8 +1,11 @@
+// src/components/Navbar.jsx
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import { BsLightbulbFill, BsLightbulbOffFill } from 'react-icons/bs';
-import { HiMenu, HiX } from 'react-icons/hi'; // hamburger icons
+import { HiMenu, HiX } from 'react-icons/hi';
+import StylePicker from '../theme/StylePicker';
+import { useStyleEngine } from '../theme/StyleContext';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -12,120 +15,87 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const location = useLocation();
-  const [isDark, setIsDark] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const { dark, toggleDark } = useStyleEngine();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark');
-      setIsDark(true);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    if (isDark) {
-      document.body.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.body.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    }
-    setIsDark(!isDark);
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const LinkItem = ({ item, onClick, className = '' }) => {
+    const current = pathname === item.path;
+    return (
+      <Link
+        to={item.path}
+        onClick={onClick}
+        aria-current={current ? 'page' : undefined}
+        className={`${className} ${current ? 'text-accent-ink' : 'text-ink hover:text-accent-ink'} transition-colors`}
+      >
+        <span className={current ? 'scribble' : ''}>{item.name}</span>
+      </Link>
+    );
   };
 
   return (
-    <motion.nav 
-      initial={{ y: -50, opacity: 0 }} 
-      animate={{ y: 0, opacity: 1 }} 
-      transition={{ duration: 0.6 }}
-      className="bg-parchment dark:bg-[#1e1e1e] shadow-md px-6 py-4 sticky top-0 z-50"
+    <motion.header
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="sticky top-0 z-50 border-b-[length:var(--border-w)] border-line bg-bg/85 backdrop-blur-md"
     >
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center px-4">
+      <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+        <Link to="/" className="t-h3 shrink-0 whitespace-nowrap text-accent-ink max-[440px]:!text-[0.8rem]" aria-label="RT.Animation home">
+          RT.Animation
+        </Link>
 
-        <h1 className="text-2xl font-bold text-sketchPurple">RT.Animation</h1>
-
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 text-lg font-medium items-center">
+        <ul className="hidden items-center gap-7 text-lg md:flex">
           {navItems.map((item) => (
-            <li key={item.name}>
-              <Link
-                to={item.path}
-                className={`hover:text-sketchPurple transition-colors duration-200 ${
-                  location.pathname === item.path
-                    ? 'text-sketchPurple'
-                    : 'text-ink dark:text-parchment'
-                }`}
-              >
-                {item.name}
-              </Link>
+            <li key={item.path}>
+              <LinkItem item={item} />
             </li>
           ))}
-          <li>
-            <button
-              onClick={toggleTheme}
-              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="ml-4 p-2 rounded-full border border-sketchPurple text-sketchPurple hover:bg-sketchPurple hover:text-white transition"
-            >
-              {isDark ? <BsLightbulbOffFill className="w-5 h-5" /> : <BsLightbulbFill className="w-5 h-5" />}
-            </button>
-          </li>
         </ul>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 text-sketchPurple"
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-        >
-          {isMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
-        </button>
-      </div>
+        <div className="flex items-center gap-2">
+          <StylePicker />
+          <button
+            type="button"
+            onClick={toggleDark}
+            aria-pressed={dark}
+            title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="btn btn-ghost !px-2.5 !py-2"
+          >
+            {dark ? <BsLightbulbOffFill className="h-5 w-5" /> : <BsLightbulbFill className="h-5 w-5" />}
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost !px-2.5 !py-2 md:hidden"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {menuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
+          </button>
+        </div>
+      </nav>
 
-      {/* Mobile Dropdown */}
       <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
+        {menuOpen && (
+          <motion.ul
+            id="mobile-menu"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-parchment dark:bg-[#1e1e1e] px-6 py-4"
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-line/30 px-6 md:hidden"
           >
-            <ul className="space-y-4 text-lg font-medium">
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`block hover:text-sketchPurple transition-colors duration-200 ${
-                      location.pathname === item.path
-                        ? 'text-sketchPurple'
-                        : 'text-ink dark:text-parchment'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <button
-                  onClick={toggleTheme}
-                  title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                  className="mt-2 p-2 rounded-full border border-sketchPurple text-sketchPurple hover:bg-sketchPurple hover:text-white transition"
-                >
-                  {isDark ? <BsLightbulbOffFill className="w-5 h-5" /> : <BsLightbulbFill className="w-5 h-5" />}
-                </button>
+            {navItems.map((item) => (
+              <li key={item.path} className="py-2 text-xl">
+                <LinkItem item={item} onClick={() => setMenuOpen(false)} className="block" />
               </li>
-            </ul>
-          </motion.div>
+            ))}
+          </motion.ul>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </motion.header>
   );
 }

@@ -1,109 +1,303 @@
-/* index.css */
+/* src/index.css
+   Theme variables (--bg, --ink, --accent, --font-display, ...) are written onto <html> by
+   src/theme/styles.js. The :root block below is only the first-paint fallback (Traditional Cel, light). */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Light Theme (Default) */
-
-input, textarea {
-  caret-color: transparent;
-}
-/* index.css */
-.ink-ripple {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  background: rgba(124, 58, 237, 0.3); /* sketch purple ripple */
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: rippleFade 0.6s ease-out;
-  z-index: 9999;
+:root {
+  --bg: 245 240 230; --bg2: 235 227 208; --card: 255 253 247; --ink: 45 45 45; --muted: 91 87 80;
+  --line: 45 45 45; --accent: 124 58 237; --accent-ink: 124 58 237; --accent2: 255 138 43; --accent3: 47 128 237; --on-accent: 255 255 255;
+  --radius: 22px 12px 26px 10px / 12px 24px 10px 26px; --btn-radius: 18px 10px 20px 10px / 10px 20px 10px 18px;
+  --border-w: 2px; --card-shadow: 4px 5px 0 rgb(var(--line) / 0.18); --btn-shadow: 3px 4px 0 rgb(var(--line) / 0.85);
+  --case: none; --tracking: 0; --h-style: normal;
+  --font-display: 'Fredericka the Great', cursive; --font-body: 'Patrick Hand', cursive;
+  --font-scale: 1.12; --display-adjust: 1;
 }
 
-@keyframes rippleFade {
-  from {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(0.6);
+html { font-size: calc(16px * var(--font-scale)); scroll-behavior: smooth; }
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+  font-family: var(--font-body);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+::selection { background: rgb(var(--accent)); color: rgb(var(--on-accent)); }
+
+:focus-visible { outline: 3px solid rgb(var(--accent2)); outline-offset: 3px; }
+
+/* ------------------------------------------------------------------ type */
+.t-hero, .t-h1, .t-h2, .t-h3 {
+  font-family: var(--font-display);
+  text-transform: var(--case);
+  letter-spacing: var(--tracking);
+  font-style: var(--h-style);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+.t-hero { font-size: calc(clamp(2.8rem, 9vw, 6.2rem) * var(--display-adjust)); }
+.t-h1   { font-size: calc(clamp(2rem, 5.5vw, 3.6rem) * var(--display-adjust)); }
+.t-h2   { font-size: calc(clamp(1.5rem, 3.4vw, 2.2rem) * var(--display-adjust)); }
+.t-h3   { font-size: calc(1.2rem * var(--display-adjust)); }
+
+html[data-style='anime'] .t-hero, html[data-style='anime'] .t-h1 { text-shadow: 3px 3px 0 rgb(var(--accent2)); }
+html[data-style='vector'] .t-hero, html[data-style='vector'] .t-h1 { text-shadow: 0 0.06em 0 rgb(var(--accent)); }
+html[data-style='chibi'] .t-hero, html[data-style='chibi'] .t-h1 { text-shadow: 0 0.05em 0 rgb(var(--accent3)); }
+html[data-style='pixel'] .t-hero, html[data-style='pixel'] .t-h1 { text-shadow: 3px 3px 0 rgb(var(--accent2)); line-height: 1.4; }
+html[data-style='cutout'] .t-hero, html[data-style='cutout'] .t-h1 { text-shadow: 3px 3px 0 rgb(var(--accent2)); }
+
+/* a hand-drawn squiggle under a word; becomes a bar in the geometric styles */
+.scribble { position: relative; display: inline-block; }
+.scribble::after {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: -0.16em; height: 0.3em;
+  background: rgb(var(--accent));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q6 0 12 4 T24 4' fill='none' stroke='black' stroke-width='2.4'/%3E%3C/svg%3E") repeat-x center / 24px 100%;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4 Q6 0 12 4 T24 4' fill='none' stroke='black' stroke-width='2.4'/%3E%3C/svg%3E") repeat-x center / 24px 100%;
+}
+html[data-style='vector'] .scribble::after,
+html[data-style='flat'] .scribble::after,
+html[data-style='pixel'] .scribble::after,
+html[data-style='cutout'] .scribble::after,
+html[data-style='abstract'] .scribble::after,
+html[data-style='anime'] .scribble::after {
+  -webkit-mask: none; mask: none; height: 0.2em; bottom: -0.06em; border-radius: 0;
+}
+html[data-style='vector'] .scribble::after { border-radius: 99px; }
+html[data-style='anime'] .scribble::after { transform: skewX(-24deg); }
+html[data-style='cutout'] .scribble::after { transform: rotate(-1.2deg); }
+html[data-style='abstract'] .scribble::after { background: rgb(var(--accent2)); mix-blend-mode: multiply; }
+html[data-style='abstract'].dark .scribble::after { mix-blend-mode: screen; }
+
+/* ------------------------------------------------------------ components */
+@layer components {
+  .card {
+    position: relative;
+    background: rgb(var(--card));
+    color: rgb(var(--ink));
+    border: var(--border-w) solid rgb(var(--line));
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
   }
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.5);
+  .card-hover { transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s, background-color 0.2s; }
+  .card-hover:hover, .card-hover:focus-within { transform: translate(-2px, -4px); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: calc(1rem * var(--display-adjust));
+    text-transform: var(--case); letter-spacing: var(--tracking);
+    background: rgb(var(--accent)); color: rgb(var(--on-accent));
+    border: var(--border-w) solid rgb(var(--line));
+    border-radius: var(--btn-radius);
+    box-shadow: var(--btn-shadow);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.2s;
+    text-decoration: none;
   }
+  .btn:hover { transform: translate(-2px, -2px); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .btn-ghost { background: transparent; color: rgb(var(--ink)); }
+  .btn-alt { background: rgb(var(--accent2)); color: rgb(var(--on-accent)); }
+  html[data-style='flat'] .btn-ghost { background: rgb(var(--bg2)); }
+  html[data-style='flat'] .btn { padding: 0.8rem 1.7rem; }
+
+  .chip {
+    display: inline-block; padding: 0.1rem 0.7rem; font-size: 0.8rem;
+    border: 1.5px solid rgb(var(--line) / 0.55); border-radius: 999px;
+    background: rgb(var(--bg2)); color: rgb(var(--ink));
+  }
+  html[data-style='pixel'] .chip, html[data-style='cutout'] .chip, html[data-style='abstract'] .chip,
+  html[data-style='rotoscope'] .chip { border-radius: 0; }
+  html[data-style='flat'] .chip { border: 0; }
+  .chip-on { background: rgb(var(--accent)); color: rgb(var(--on-accent)); border-color: rgb(var(--line)); }
+
+  .input {
+    width: 100%; padding: 0.7rem 0.9rem;
+    background: rgb(var(--bg)); color: rgb(var(--ink));
+    border: max(var(--border-w), 2px) solid rgb(var(--line));
+    border-radius: var(--radius);
+    font-family: var(--font-body); font-size: 1.05rem;
+    caret-color: rgb(var(--accent));
+  }
+  .input::placeholder { color: rgb(var(--muted) / 0.8); }
+  .input:focus { outline: 3px solid rgb(var(--accent2)); outline-offset: 2px; }
+  html[data-style='flat'] .input { border: 0; background: rgb(var(--bg2)); }
+  html[data-style='chibi'] .input, html[data-style='vector'] .input { border-radius: 18px; }
 }
 
-@keyframes ripple-effect {
-  to {
-    transform: translate(-50%, -50%) scale(4);
-    opacity: 0;
-  }
+/* signature hover for each style: the "animation principle" it is known for */
+@keyframes cel-wobble { 0% { transform: rotate(-0.9deg) translate(-1px, -3px); } 100% { transform: rotate(0.9deg) translate(1px, -3px); } }
+@keyframes cut-jerk { 0% { transform: rotate(-1.6deg) translate(-2px, -3px); } 50% { transform: rotate(1.2deg) translate(2px, -2px); } 100% { transform: rotate(-0.4deg) translate(0, -4px); } }
+@keyframes chibi-boing { 0% { transform: scale(1, 1); } 30% { transform: scale(1.06, 0.93) translateY(2px); } 60% { transform: scale(0.97, 1.06) translateY(-8px); } 100% { transform: scale(1.01, 1) translateY(-4px); } }
+@keyframes roto-boil { 0% { transform: translate(1px, -1px) rotate(0.2deg); } 33% { transform: translate(-1px, 1px) rotate(-0.25deg); } 66% { transform: translate(1px, 1px) rotate(0.1deg); } 100% { transform: translate(-1px, -1px) rotate(-0.1deg); } }
+
+html[data-style='cel'] .card-hover:hover { animation: cel-wobble 0.36s steps(2) infinite; }
+html[data-style='cutout'] .card-hover:hover { animation: cut-jerk 0.6s steps(1) infinite; }
+html[data-style='chibi'] .card-hover:hover { animation: chibi-boing 0.55s ease-out forwards; }
+html[data-style='rotoscope'] .card-hover:hover { animation: roto-boil 0.4s steps(1) infinite; }
+html[data-style='vector'] .card-hover:hover { transform: translateY(-7px); box-shadow: 0 14px 0 rgb(var(--line)); }
+html[data-style='anime'] .card-hover:hover { transform: translate(-5px, -5px) skewX(-1.5deg); box-shadow: 11px 11px 0 rgb(var(--accent2)); }
+html[data-style='pixel'] .card-hover:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0 rgb(var(--line)); transition: none; }
+html[data-style='whiteboard'] .card-hover:hover { transform: rotate(-0.7deg) scale(1.015); }
+html[data-style='abstract'] .card-hover:hover { transform: rotate(-1.4deg) translate(-3px, -3px); box-shadow: 12px 12px 0 rgb(var(--accent2)); }
+html[data-style='flat'] .card-hover:hover { --card: var(--accent); --ink: var(--on-accent); --muted: var(--on-accent); --bg2: var(--on-accent); transform: none; }
+
+/* paper-doll stiffness: alternate cards tilt like pinned cut-outs */
+html[data-style='cutout'] .tilt:nth-child(odd) { transform: rotate(-1.1deg); }
+html[data-style='cutout'] .tilt:nth-child(even) { transform: rotate(0.9deg); }
+html[data-style='abstract'] .tilt:nth-child(3n+1) { transform: rotate(-0.8deg); }
+html[data-style='abstract'] .tilt:nth-child(3n+2) { transform: rotate(0.6deg); }
+
+/* pixel: crisp scaling and a dither edge on art */
+html[data-style='pixel'] img { image-rendering: pixelated; }
+html[data-style='pixel'] .px-art::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
+  background:
+    linear-gradient(rgb(var(--ink) / 0.18) 2px, transparent 2px) 0 0 / 100% 6px,
+    linear-gradient(90deg, rgb(var(--ink) / 0.18) 2px, transparent 2px) 0 0 / 6px 100%;
 }
+html[data-style='pixel'].dark .px-art::after { mix-blend-mode: normal; opacity: 0.55; }
+html[data-style='rotoscope'] .art-frame img { filter: contrast(1.15) saturate(0.8); }
+html[data-style='flat'] .art-frame img { filter: saturate(1.25) contrast(1.05); }
+
+.blink { animation: blink 0.9s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ------------------------------------------------------------- backdrops */
+.bd { position: fixed; inset: 0; z-index: -10; overflow: hidden; pointer-events: none; animation: bd-in 0.5s both; background: rgb(var(--bg)); }
+@keyframes bd-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes drift { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(28px, -36px) rotate(8deg); } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes bob-step { 0% { transform: translateY(0); } 100% { transform: translateY(-14px); } }
+@keyframes float-y { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-18px) rotate(6deg); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.9; } 50% { opacity: 0.25; } }
+@keyframes cloud-x { from { transform: translateX(-20vw); } to { transform: translateX(120vw); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* cel: lined animation paper */
+.bd-cel .paper { position: absolute; inset: 0; background-size: cover; opacity: 0.55; }
+.bd-cel .lines {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, transparent 6.5%, rgb(var(--accent) / 0.28) 6.5% calc(6.5% + 2px), transparent calc(6.5% + 2px)),
+    repeating-linear-gradient(to bottom, transparent 0 33px, rgb(var(--accent3) / 0.14) 33px 34px);
+}
+.bd-cel .peg { position: absolute; left: 2.2%; width: 18px; height: 18px; border-radius: 50%; background: rgb(var(--bg2)); border: 2px solid rgb(var(--line) / 0.35); }
+
+/* vector: flat geometric shapes drifting */
+.bd-vector .shape { position: absolute; animation: drift 14s ease-in-out infinite alternate; }
+.bd-vector .s1 { width: 46vmin; height: 46vmin; border-radius: 50%; right: -8vmin; top: -10vmin; background: rgb(var(--accent2) / 0.3); border: 4px solid rgb(var(--line) / 0.2); }
+.bd-vector .s2 { width: 30vmin; height: 30vmin; border-radius: 28%; left: -12vmin; bottom: 4vmin; background: rgb(var(--accent) / 0.28); border: 4px solid rgb(var(--line) / 0.25); animation-duration: 18s; }
+.bd-vector .s3 { width: 22vmin; height: 22vmin; right: 12%; bottom: 6%; background: rgb(var(--accent3) / 0.55); clip-path: polygon(50% 0, 100% 100%, 0 100%); animation-duration: 11s; }
+.bd-vector .s4 { width: 10vmin; height: 10vmin; left: 46%; top: 6%; border-radius: 50%; background: rgb(var(--accent) / 0.45); animation-duration: 9s; }
+
+/* cut-out: construction-paper landscape, stepped like puppet animation */
+.bd-cutout { background: linear-gradient(rgb(var(--bg)), rgb(var(--bg2) / 0.0) 70%), rgb(var(--bg)); }
+.bd-cutout .hill { position: absolute; border: 3px solid rgb(var(--line) / 0.45); background: rgb(var(--bg2)); border-radius: 50%; }
+.bd-cutout .h1 { width: 80vw; height: 50vw; left: -20vw; bottom: -30vw; }
+.bd-cutout .h2 { width: 90vw; height: 50vw; right: -25vw; bottom: -33vw; }
+.bd-cutout .sun { position: absolute; width: 14vmin; height: 14vmin; right: 9%; top: 9%; border-radius: 50%; background: rgb(var(--accent2)); border: 4px solid rgb(var(--line)); animation: bob-step 1.4s steps(3) infinite alternate; }
+.bd-cutout .cloud { position: absolute; display: flex; animation: bob-step 2.2s steps(4) infinite alternate; }
+.bd-cutout .cloud i { display: block; background: rgb(var(--card)); border: 4px solid rgb(var(--line)); border-radius: 50%; margin-left: -14px; }
+.bd-cutout .cloud i:first-child { margin-left: 0; }
+
+/* anime: speed lines + halftone */
+.bd-anime { background: linear-gradient(160deg, rgb(var(--bg)), rgb(var(--bg2))); }
+.bd-anime .rays {
+  position: absolute; inset: -60%;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgb(var(--ink) / 0.08) 0deg 1.1deg, transparent 1.1deg 6deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 14%, #000 62%);
+          mask-image: radial-gradient(circle at 50% 50%, transparent 14%, #000 62%);
+  animation: spin-slow 160s linear infinite;
+}
+.bd-anime .dots {
+  position: absolute; left: 0; bottom: 0; width: 55vw; height: 55vh;
+  background: radial-gradient(rgb(var(--accent) / 0.35) 2px, transparent 2.6px) 0 0 / 14px 14px;
+  -webkit-mask-image: radial-gradient(ellipse at 0% 100%, #000, transparent 70%);
+          mask-image: radial-gradient(ellipse at 0% 100%, #000, transparent 70%);
+}
+
+/* whiteboard: grid + marker doodles that draw themselves */
+.bd-whiteboard {
+  background:
+    radial-gradient(ellipse at 15% 0%, rgb(255 255 255 / 0.55), transparent 55%),
+    linear-gradient(rgb(var(--ink) / 0.06) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgb(var(--ink) / 0.06) 1px, transparent 1px) 0 0 / 44px 44px,
+    rgb(var(--bg));
+}
+html.dark .bd-whiteboard { background:
+    radial-gradient(ellipse at 15% 0%, rgb(255 255 255 / 0.07), transparent 55%),
+    linear-gradient(rgb(var(--ink) / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgb(var(--ink) / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
+    rgb(var(--bg)); }
+.bd-whiteboard svg { position: absolute; opacity: 0.4; }
+.bd-whiteboard path { stroke: currentColor; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 2.2s 0.3s ease forwards; }
+
+/* rotoscope: wobbling color washes + film grain */
+.bd-rotoscope .wash { position: absolute; border-radius: 46% 54% 48% 52%; filter: url(#roto-boil); border: 3px solid rgb(var(--ink) / 0.45); }
+.bd-rotoscope .w1 { width: 52vmin; height: 52vmin; right: -6vmin; top: 6vh; background: rgb(var(--accent) / 0.28); }
+.bd-rotoscope .w2 { width: 40vmin; height: 40vmin; left: -8vmin; bottom: 4vh; background: rgb(var(--accent2) / 0.3); }
+.bd-rotoscope .w3 { width: 22vmin; height: 22vmin; left: 40%; top: -6vmin; background: rgb(var(--accent3) / 0.3); }
+.bd-rotoscope .grain {
+  position: absolute; inset: 0; opacity: 0.16; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html.dark .bd-rotoscope .grain { mix-blend-mode: screen; opacity: 0.1; }
+
+/* pixel: tile grid, drifting blocky clouds, twinkling stars */
+.bd-pixel { background: rgb(var(--bg)); }
+.bd-pixel .grid {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgb(var(--line) / 0.12) 4px, transparent 4px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgb(var(--line) / 0.12) 4px, transparent 4px) 0 0 / 32px 32px;
+}
+.bd-pixel .star { position: absolute; width: 6px; height: 6px; background: rgb(var(--ink)); animation: twinkle 1.6s steps(2) infinite; }
+.bd-pixel .px-cloud { position: absolute; left: 0; width: 8px; height: 8px; color: rgb(var(--bg2)); background: currentColor; animation: cloud-x 60s linear infinite;
+  box-shadow: 8px 0 currentColor, 16px 0 currentColor, 24px 0 currentColor, 32px 0 currentColor, 40px 0 currentColor, 48px 0 currentColor,
+              -8px 8px currentColor, 0 8px currentColor, 8px 8px currentColor, 16px 8px currentColor, 24px 8px currentColor, 32px 8px currentColor, 40px 8px currentColor, 48px 8px currentColor, 56px 8px currentColor,
+              8px -8px currentColor, 16px -8px currentColor, 32px -8px currentColor, 40px -8px currentColor, 24px -16px currentColor, 32px -16px currentColor; transform-origin: 0 0; scale: 2.2; }
+.crt { position: fixed; inset: 0; z-index: 9990; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.1) 0 2px, transparent 2px 4px),
+    radial-gradient(ellipse at center, transparent 62%, rgb(0 0 0 / 0.28) 100%); }
+
+/* flat: bold static composition */
+.bd-flat .f1 { position: absolute; width: 62vmin; height: 62vmin; border-radius: 50%; right: -14vmin; top: -18vmin; background: rgb(var(--accent)); }
+.bd-flat .f2 { position: absolute; width: 24vmin; height: 24vmin; left: -5vmin; bottom: -9vmin; background: rgb(var(--accent2)); }
+.bd-flat .f3 { position: absolute; width: 16vmin; height: 16vmin; right: 18%; bottom: 14%; background: rgb(var(--accent3)); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.bd-flat .f4 { position: absolute; width: 8vmin; height: 8vmin; left: 52%; top: 9%; background: rgb(var(--ink)); transform: rotate(18deg); animation: spin-slow 40s linear infinite; }
+
+/* chibi: polka dots and floating stars/hearts */
+.bd-chibi { background: radial-gradient(rgb(var(--accent) / 0.22) 3.5px, transparent 4.5px) 0 0 / 38px 38px, rgb(var(--bg)); }
+.bd-chibi svg { position: absolute; animation: float-y 6s ease-in-out infinite; }
+
+/* abstract: Bauhaus-style overlapping forms */
+.bd-abstract .a1 { position: absolute; width: 54vmin; height: 54vmin; border-radius: 50%; left: -16vmin; top: 52%; background: rgb(var(--accent)); opacity: 0.8; mix-blend-mode: multiply; animation: drift 20s ease-in-out infinite alternate; }
+.bd-abstract .a2 { position: absolute; width: 38vmin; height: 66vmin; right: 4%; top: 12%; background: rgb(var(--accent2)); opacity: 0.85; mix-blend-mode: multiply; transform: rotate(14deg); animation: drift 26s ease-in-out infinite alternate-reverse; }
+.bd-abstract .a3 { position: absolute; width: 14vmin; height: 14vmin; border-radius: 50%; left: 56%; bottom: 4%; background: rgb(var(--accent3)); mix-blend-mode: multiply; }
+.bd-abstract .a4 { position: absolute; left: -10%; right: -10%; top: 62%; height: 2px; background: rgb(var(--ink) / 0.35); transform: rotate(-9deg); }
+.bd-abstract .a5 { position: absolute; left: 30%; top: -10%; bottom: -10%; width: 2px; background: rgb(var(--ink) / 0.35); transform: rotate(12deg); }
+.bd-abstract .a6 { position: absolute; width: 140px; height: 140px; right: 3%; bottom: 4%; opacity: 0.6; background: radial-gradient(rgb(var(--ink)) 2.5px, transparent 3px) 0 0 / 14px 14px; }
+html.dark .bd-abstract .a1, html.dark .bd-abstract .a2, html.dark .bd-abstract .a3 { mix-blend-mode: screen; opacity: 0.55; }
+
+/* --------------------------------------------------------- cursor / misc */
+html[data-pen='on'] *, html[data-pen='on'] { cursor: none !important; }
 .cursor-trail-dot {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: rgba(60, 60, 60, 0.3); /* Light mode: graphite feel */
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transition: opacity 0.3s ease-out, background-color 0.3s ease;
+  position: fixed; width: 4px; height: 4px; border-radius: 50%; background: rgb(var(--ink) / 0.35);
+  pointer-events: none; z-index: 9999; transition: opacity 0.3s ease-out;
 }
+.ink-ripple {
+  position: fixed; width: 120px; height: 120px; background: rgb(var(--accent) / 0.3); border-radius: 50%;
+  transform: translate(-50%, -50%); pointer-events: none; animation: rippleFade 0.6s ease-out; z-index: 9999;
+}
+@keyframes rippleFade { from { opacity: 0.6; transform: translate(-50%, -50%) scale(0.6); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } }
 
-/* Dark mode color override */
-body.dark .cursor-trail-dot {
-  background: rgba(245, 240, 230, 0.4);
-  transition: background-color 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
-
-
-
-button:hover,
-a:hover {
-  filter: drop-shadow(0 0 5px #7c3aed);
-  transform: scale(1.05);
-  transition: all 0.2s ease;
-}
-
-::selection {
-  @apply bg-sketchPurple text-white;
-}
-
-/* Dark Theme */
-body.dark {
-  background-color: #1e1e1e;
-  color: #f5f0e6;
-  background-image: none;
-}
-
-.dark .text-ink {
-  color: #f5f0e6;
-}
-
-.dark .bg-parchment {
-  background-color: #1e1e1e;
-}
-
-.dark .bg-white {
-  background-color: #333333;
-}
-
-.dark .text-graphite {
-  color: #d0cbc3;
-}
-
-.dark .bg-sketchPurple {
-  background-color: #a78bfa;
-}
-
-.dark .text-sketchPurple {
-  color: #a78bfa;
-}
-* {
-  cursor: none !important;
-}
-@media (max-height: 700px) {
-  .home-section {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-}
+@media (max-height: 700px) { .home-section { padding-top: 3rem; padding-bottom: 3rem; } }
