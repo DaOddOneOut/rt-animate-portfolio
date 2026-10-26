@@ -287,6 +287,11 @@ html.dark .bd-abstract .a1, html.dark .bd-abstract .a2, html.dark .bd-abstract .
 
 /* --------------------------------------------------------- cursor / misc */
 html[data-pen='on'] *, html[data-pen='on'] { cursor: none !important; }
+html[data-cur='on'], html[data-cur='on'] * { cursor: var(--cur-def); }
+html[data-cur='on'] :is(a, button, summary, label, select, [role='button'], [role='tab'], input[type='checkbox'], input[type='radio'], input[type='submit']),
+html[data-cur='on'] :is(a, button, summary, label, [role='button']) * { cursor: var(--cur-ptr); }
+html[data-cur='on'] :is(input:not([type='checkbox'], [type='radio'], [type='submit']), textarea) { cursor: text; }
+html[data-cur='on'] :is(button:disabled, [aria-disabled='true']) { cursor: not-allowed; }
 .cursor-trail-dot {
   position: fixed; width: 4px; height: 4px; border-radius: 50%; background: rgb(var(--ink) / 0.35);
   pointer-events: none; z-index: 9999; transition: opacity 0.3s ease-out;

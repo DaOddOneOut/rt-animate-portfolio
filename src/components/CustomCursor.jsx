@@ -1,12 +1,14 @@
 // src/components/CustomCursor.jsx
-// The pen cursor only appears in the hand-drawn styles (cel, whiteboard, rotoscope) and only
-// for mouse users. Every other style, and every touch device, keeps the normal cursor.
+// Mouse cursors follow the active style. The hand-drawn styles (cel, whiteboard, rotoscope) get
+// the animated pen; every other style gets its own SVG cursor (see theme/cursors.js).
+// Touch devices keep their normal behavior.
 import { useEffect, useRef, useState } from 'react';
 import { useStyleEngine } from '../theme/StyleContext';
 import initCursorTrail from '../effects/cursor-trail';
+import { cursorsFor } from '../theme/cursors';
 
 export default function CustomCursor() {
-  const { active, styles } = useStyleEngine();
+  const { active, styles, dark } = useStyleEngine();
   const ref = useRef(null);
   const [finePointer, setFinePointer] = useState(false);
 
@@ -39,6 +41,22 @@ export default function CustomCursor() {
       root.dataset.pen = 'off';
     };
   }, [enabled]);
+
+  // per-style SVG cursors for the non-pen styles
+  useEffect(() => {
+    const root = document.documentElement;
+    const set = finePointer && !styles[active].pen ? cursorsFor(active, styles[active][dark ? 'dark' : 'light']) : null;
+    if (!set) {
+      root.dataset.cur = 'off';
+      return undefined;
+    }
+    root.style.setProperty('--cur-def', set.def);
+    root.style.setProperty('--cur-ptr', set.ptr);
+    root.dataset.cur = 'on';
+    return () => {
+      root.dataset.cur = 'off';
+    };
+  }, [finePointer, active, dark, styles]);
 
   if (!enabled) return null;
 
