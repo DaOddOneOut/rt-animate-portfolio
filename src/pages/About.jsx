@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import skills from '../data/skills';
 import links from '../data/links';
+import { BRAND } from '../data/site';
 
 // Draft copy: edit these to match how you really work.
 const steps = [
@@ -31,7 +32,7 @@ export default function About() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <Helmet>
-        <title>RT.Animation | About Rich</title>
+        <title>{`${BRAND} | About Rich`}</title>
         <meta name="description" content="Learn about Rich’s background in motion design, traditional animation, and creative storytelling." />
       </Helmet>
 

@@ -1,6 +1,7 @@
 // src/components/Footer.jsx
 import { useStyleEngine } from '../theme/StyleContext';
 import links from '../data/links';
+import { BRAND } from '../data/site';
 
 const socials = [
   { label: 'GitHub', href: links.github },
@@ -16,7 +17,7 @@ export default function Footer() {
         <p className="text-sm text-muted">
           Drawn in <strong className="text-ink">{styles[active].name}</strong> style. Use the Style button up top to redraw the whole site.
         </p>
-        <p className="mt-1 text-sm">&copy; {new Date().getFullYear()} RT.Animate. All rights reserved.</p>
+        <p className="mt-1 text-sm">&copy; {new Date().getFullYear()} {BRAND}. All rights reserved.</p>
         {socials.length > 0 && (
           <div className="mt-3 flex flex-wrap items-center justify-center gap-5">
             {socials.map((l) => (

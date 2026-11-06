@@ -6,6 +6,7 @@ import { BsLightbulbFill, BsLightbulbOffFill } from 'react-icons/bs';
 import { HiMenu, HiX } from 'react-icons/hi';
 import StylePicker from '../theme/StylePicker';
 import { useStyleEngine } from '../theme/StyleContext';
+import { BRAND } from '../data/site';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -41,8 +42,8 @@ export default function Navbar() {
       className="sticky top-0 z-50 border-b-[length:var(--border-w)] border-line bg-bg/85 backdrop-blur-md"
     >
       <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-        <Link to="/" className="t-h3 shrink-0 whitespace-nowrap text-accent-ink max-[440px]:!text-[0.8rem]" aria-label="RT.Animation home">
-          RT.Animation
+        <Link to="/" className="t-h3 shrink-0 whitespace-nowrap text-accent-ink max-[440px]:!text-[0.8rem]" aria-label={`${BRAND} home`}>
+          {BRAND}
         </Link>
 
         <ul className="hidden items-center gap-7 text-lg md:flex">

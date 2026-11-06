@@ -6,6 +6,7 @@ import StyleReel from '../theme/StyleReel';
 import { useStyleEngine } from '../theme/StyleContext';
 import projects from '../data/projects';
 import links from '../data/links';
+import { BRAND } from '../data/site';
 
 const container = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
 const item = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } } };
@@ -48,7 +49,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>RT.Animation | Home</title>
+        <title>{`${BRAND} | Home`}</title>
         <meta
           name="description"
           content="Rich is a motion designer and animator blending traditional 2D animation with modern design. Explore his latest work."
