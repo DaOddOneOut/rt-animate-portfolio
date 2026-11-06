@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import links from '../data/links';
+import { BRAND } from '../data/site';
 
 const FORM_ENDPOINT = 'https://formspree.io/f/xpwdvavv';
 
@@ -66,7 +67,7 @@ export default function Contact() {
   return (
     <section className="mx-auto grid max-w-5xl gap-10 px-4 py-12 md:grid-cols-[1.4fr_1fr]">
       <Helmet>
-        <title>RT.Animation | Contact</title>
+        <title>{`${BRAND} | Contact`}</title>
         <meta name="description" content="Interested in working together or saying hi? Reach out to Rich here." />
       </Helmet>
 
