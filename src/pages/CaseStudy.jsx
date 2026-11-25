@@ -48,9 +48,16 @@ export default function CaseStudy() {
         )}
       </header>
 
+      {cs.cover && project.image && (
+        <figure className="card mt-10 overflow-hidden p-0">
+          <img src={project.image} alt={project.imageAlt || title} width="1600" height="1200" decoding="async" className="h-auto w-full" />
+          <figcaption className="p-3 text-sm text-muted">{cs.cover.caption}</figcaption>
+        </figure>
+      )}
+
       {cs.video && (
         <figure className="card mt-10 overflow-hidden p-0">
-          <video className="mx-auto max-h-[70vh] w-full bg-black object-contain" controls playsInline preload="metadata" poster={project.image || undefined}>
+          <video className="mx-auto max-h-[70vh] w-full bg-black object-contain" controls playsInline preload="metadata" poster={cs.videoPoster || undefined}>
             <source src={cs.video} type="video/mp4" />
           </video>
           <figcaption className="p-3 text-sm text-muted">
@@ -115,13 +122,26 @@ export default function CaseStudy() {
         </Section>
       )}
 
-      {cs.previews?.length > 0 && (
+      {(cs.overviews?.length > 0 || cs.previews?.length > 0) && (
         <Section id="previews" title="Finished product previews">
-          {cs.previewNote && <p className="mb-6 text-muted">{cs.previewNote}</p>}
-          <ul className="grid gap-6 sm:grid-cols-3">
+          {cs.overviews?.length > 0 && (
+            <ul className="mb-10 grid gap-6">
+              {cs.overviews.map((g) => (
+                <li key={g.file} className="card overflow-hidden">
+                  <a href={g.src} target="_blank" rel="noopener noreferrer" aria-label={`${g.caption} Open full size`}>
+                    <img src={g.src} alt={g.caption} width="1600" height="1200" loading="lazy" decoding="async" className="h-auto w-full" />
+                  </a>
+                  <p className="p-3 text-sm text-muted">{g.caption}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+          {cs.previews?.length > 0 && <h3 className="t-h3 mb-2">In use in ProPresenter</h3>}
+          {cs.previewNote && cs.previews?.length > 0 && <p className="mb-6 text-muted">{cs.previewNote}</p>}
+          <ul className="grid gap-6 sm:grid-cols-2">
             {cs.previews.map((g) => (
               <li key={g.file} className="card overflow-hidden">
-                <img src={g.src} alt={g.caption} loading="lazy" decoding="async" className="w-full" />
+                <img src={g.src} alt={g.caption} width="1080" height="1040" loading="lazy" decoding="async" className="h-auto w-full" />
                 <p className="p-3 text-sm text-muted">{g.caption}</p>
               </li>
             ))}

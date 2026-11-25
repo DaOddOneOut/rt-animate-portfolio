@@ -47,8 +47,10 @@ const featured = [
     visual: 'final',
   },
   // Case study built from the Passive Income & Content Handoff (Nov 25, 2026).
-  // Images are frames from the RT.Animation promo video (RTAnimation_Christmas_Vertical_v3.mp4),
-  // which was recorded in ProPresenter from the actual pack files. No generated replacement art.
+  // Media: Etsy_Main_Photo_v2.png (approved Etsy main photo; an illustrative display mockup, labeled
+  // as such), Overview_Backgrounds_and_Titles.png and Overview_Social_Stills.png (renders of the
+  // actual pack files), the RT.Animation promo video (RTAnimation_Christmas_Vertical_v3.mp4, recorded
+  // in ProPresenter) and two frames cut from it. No generated replacement art.
   {
     slug: 'christmas-church-media-pack',
     title: 'Christmas Church Media Pack',
@@ -60,7 +62,12 @@ const featured = [
     testedWith: ['ProPresenter 22', 'Canva'], // compatibility testing tools
     aiAssisted: true,
     visual: 'final',
+    imageAlt: 'Display mockup of the Christmas Church Media Pack countdown on a church screen and a phone',
+    visualNote: 'Cover image is a display mockup; the screen designs are from the pack.',
     caseStudy: {
+      cover: {
+        caption: 'Display mockup: an illustrative scene showing the pack\u2019s 5-minute countdown on a church screen and a social still on a phone. The screen designs are from the pack; the room and devices are not.',
+      },
       overview: [
         'A digital download for church media teams: 34 files in one navy-and-gold design, all at 1920 × 1080.',
         'It was published on Etsy on November 13, 2026 and is also sold on Gumroad.',
@@ -85,13 +92,17 @@ const featured = [
         'Tested in Canva (November 23, 2026): all test files uploaded, including the SVG; in Present mode the 1-minute countdown stopped and held on 00:00; the Star Light loop ran past its 24-second point with no visible jump; the PNG and SVG lower thirds displayed correctly.',
         'Other applications have not been tested.',
       ],
+      overviews: [
+        { file: 'overview-titles', caption: 'The four text-free motion backgrounds with matching stills, and the eight title screens.' },
+        { file: 'overview-social', caption: 'The eight text-free social stills, in square (1080 × 1080) and vertical (1080 × 1920).' },
+      ],
       previews: [
-        { file: 'gallery-1', caption: 'Countdown: a pack countdown playing in ProPresenter, with a close-up of the timer.' },
-        { file: 'gallery-2', caption: 'Motion background: a text-free loop with lyrics on top. The lyrics are example text added for the demo.' },
-        { file: 'gallery-3', caption: 'Lower third: the Speaker lower third over a loop. "Example speaker" is sample text.' },
+        { file: 'inuse-countdown', caption: 'Countdown: a pack countdown playing in ProPresenter, with a close-up of the timer.' },
+        { file: 'inuse-lowerthird', caption: 'Lower third: the Speaker lower third over a loop. "Example speaker" is sample text.' },
       ],
       previewNote: 'Frames from the RT.Animation promo video, recorded in ProPresenter from the actual pack files.',
       video: 'promo',
+      videoPoster: 'inuse-countdown',
       links: [
         { label: 'Buy on Gumroad', href: 'https://animatrix186.gumroad.com/l/christmas-church-media-pack' },
         { label: 'Buy on Etsy', href: 'https://www.etsy.com/listing/4616209245/christmas-church-media-pack-with' },
@@ -193,6 +204,11 @@ function tryGet(ctx, filename) {
 
 const firstOf = (ctx, slug, exts) => exts.map((e) => tryGet(ctx, `${slug}${e}`)).find(Boolean) || null;
 
+const resolveMedia = (slug, list) =>
+  (list || [])
+    .map((g) => ({ ...g, src: firstOf(mediaCtx, `${slug}.${g.file}`, ['.webp', '.png', '.jpg']) }))
+    .filter((g) => g.src);
+
 const projects = meta
   .filter((p) => p.published)
   .map((p) => ({
@@ -202,13 +218,13 @@ const projects = meta
     thumb: firstOf(imagesCtx, p.slug, ['.card.webp']),
     blur: firstOf(imagesCtx, p.slug, ['.blur.webp', '.blur.png', '.blur.jpg']),
     preview: firstOf(videosCtx, p.slug, ['.preview.webm', '.preview.mp4']),
-    visualNote: VISUAL_SOURCES[p.visual] ?? null,
+    visualNote: p.visualNote ?? VISUAL_SOURCES[p.visual] ?? null,
     caseStudy: p.caseStudy
       ? {
           ...p.caseStudy,
-          previews: (p.caseStudy.previews || [])
-            .map((g) => ({ ...g, src: firstOf(mediaCtx, `${p.slug}.${g.file}`, ['.webp', '.png', '.jpg']) }))
-            .filter((g) => g.src),
+          previews: resolveMedia(p.slug, p.caseStudy.previews),
+          overviews: resolveMedia(p.slug, p.caseStudy.overviews),
+          videoPoster: p.caseStudy.videoPoster ? firstOf(mediaCtx, `${p.slug}.${p.caseStudy.videoPoster}`, ['.webp', '.png', '.jpg']) : null,
           video: p.caseStudy.video ? firstOf(mediaCtx, `${p.slug}.${p.caseStudy.video}`, ['.mp4', '.webm']) : null,
         }
       : null,

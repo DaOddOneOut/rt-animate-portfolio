@@ -1,5 +1,14 @@
 # Changes
 
+## Phase 1C assets: owner-supplied promotional images (November 25, 2026)
+
+Owner-approved; pushed to the PR #4 Preview only.
+
+- Added the three recovered listing assets, checked against the Passive Income handoff: `Etsy_Main_Photo_v2.png` (2400 × 1800, v2 two-line title, labeled "Display mockup"), `Overview_Backgrounds_and_Titles.png` and `Overview_Social_Stills.png` (both 2000 × 1500; names and counts match the pack).
+- Card and case-study cover now use the Etsy main photo. It is labeled as a display mockup in its alt text, under the card and in the cover caption.
+- Finished product previews now lead with the two overview boards (full width, open full size). The soft lyrics still from the video was retired; the countdown and lower-third frames stay under "In use in ProPresenter". The promo video, its poster frame, the approved wording, AI disclosure and store links are unchanged.
+- Optimized to WebP: 6.5 MB of PNGs became about 245 KB (cover 1600 × 1200, card 960 × 600, overviews 1600 × 1200). Images carry width and height to avoid layout shift.
+
 ## Phase 1C: Christmas Church Media Pack case study (November 25, 2026)
 
 Owner-approved and pushed to the PR #4 Preview only. Role, AI-assisted production and creative objective use the owner's approved wording. Production tools (ChatGPT, Claude) are shown separately from compatibility testing tools (ProPresenter 22, Canva).

@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import { STATUS } from '../data/projects';
 
 export default function ProjectMediaCard({ project, className = '', onClick }) {
-  const { title, image, thumb, blur, preview, status } = project;
+  const { title, image, thumb, blur, preview, status, imageAlt } = project;
   const src = thumb || image;
   // Anything that is not finished work keeps its label on the image itself, so a cropped
   // screenshot or a shared thumbnail still says what it is.
   const badge = status && status !== 'real' ? STATUS[status]?.label : null;
-  const altText = badge ? `${title} (${badge.toLowerCase()})` : title;
+  const altText = badge ? `${title} (${badge.toLowerCase()})` : imageAlt || title;
 
   const [loaded, setLoaded] = useState(false);
   const [hovered, setHovered] = useState(false);
