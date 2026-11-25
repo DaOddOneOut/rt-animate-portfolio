@@ -114,8 +114,8 @@ export default function Home() {
         >
           <div className="art-frame px-art relative aspect-square overflow-hidden rounded-full" style={frame}>
             <img
-              src="/Portfolio_RT_IMG.webp"
-              alt="Illustration of Rich in an anime style, standing in a neon-lit night city"
+              src="/rt-mascot.webp"
+              alt="RT.Animation mascot: an illustrated character with glasses, headphones and a vest on a city street"
               width="800"
               height="800"
               className="h-full w-full object-cover"

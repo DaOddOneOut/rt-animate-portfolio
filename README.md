@@ -26,7 +26,7 @@ All portfolio content lives in `src/data/projects.js`. The Portfolio page has tw
 | Section | Which `status` values | What belongs there |
 |---|---|---|
 | Real Projects | `real` | Finished work Rich made or contributed to, with the rights to show it |
-| Concepts / In Development | `concept`, `in-development` | Ideas, pitches and unfinished work |
+| Concepts & Explorations | `concept`, `in-development` | Ideas, pitches and unfinished work |
 
 Checklist for every entry:
 
@@ -40,7 +40,7 @@ Checklist for every entry:
 
 ### Temporary concept visuals (for example, Gemini-generated images)
 
-These are allowed **only** in the Concepts / In Development section.
+These are allowed **only** in the Concepts & Explorations section.
 
 1. Set `status: 'concept'` (or `'in-development'`) and `visual: 'ai-concept'`.
 2. Export the image as WebP and name it after the slug:

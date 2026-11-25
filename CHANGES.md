@@ -1,5 +1,22 @@
 # Changes
 
+## Phase 1B: content and asset integration (same branch, local only, November 25, 2026)
+
+Not pushed. Needs owner approval before the preview is updated.
+
+### Added
+- Six Gemini-assisted concepts in **Concepts & Explorations**, published with Concept preview badges, AI disclosure and "Google Gemini" as the only tool: Identity in Motion (with a 10-second logo-reveal preview clip), Words in Motion, Sonic — Product Visualization, Beyond the Frame, On Air — Motion Identity, RT.Animation — Creative Showreel. Summaries follow the descriptions on the Gemini concept boards; no animation software is claimed.
+- Assets in `src/assets/projects/`: for each concept, the concept board (`<slug>.webp`, lightbox), a clean art crop (`<slug>.card.webp`) and a blur placeholder; `identity-in-motion.preview.mp4` (re-encoded from the Gemini video, 720p, no audio, 1.9 MB).
+- `public/rt-mascot.webp`: RT.Animation mascot (owner-supplied), cropped to the circle at 800×800.
+- Business email `social@rtanimate.com` (Contact page and footer) and YouTube `@rtanimateofficial` (Contact page and footer), in `src/data/links.js`.
+- Lightbox videos use the concept board as their poster frame.
+
+### Changed
+- Home hero portrait replaced with the mascot; old `public/Portfolio_RT_IMG.webp` (superhero logo on shirt) deleted.
+- Section renamed "Concepts / In Development" → "Concepts & Explorations"; intro now names Google Gemini.
+- Featured projects renamed/prepared: RT.Animation Brand Identity, Christmas Church Media Pack, Countdown Builder, Raf & Tre. All still `published: false` until role, tools, status and source media are confirmed.
+
+
 ## Phase 1: authentic portfolio (branch `phase1/authentic-portfolio`, November 25, 2026)
 
 Preview only. Not merged, not deployed to production.

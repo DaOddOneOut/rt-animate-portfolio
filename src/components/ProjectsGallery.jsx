@@ -1,5 +1,5 @@
 // src/components/ProjectsGallery.jsx
-// Two clearly separated sections: finished work, and concepts / work in development.
+// Two clearly separated sections: finished work (Real Projects) and Concepts & Explorations.
 // Concept and in-development items always carry a visible status badge and a note about the visual.
 import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -77,7 +77,7 @@ export default function ProjectsGallery() {
           <span className="scribble">Portfolio</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Finished work is listed first. Concepts and projects still in development are kept in their own section and labeled as such.
+          Finished work is listed first. Concepts and projects still in development are kept in their own section, and every one of them is labeled.
         </p>
       </header>
 
@@ -97,8 +97,8 @@ export default function ProjectsGallery() {
 
       <Section
         id="concepts"
-        title="Concepts / In Development"
-        intro="Ideas and works in progress. Visuals here may be temporary concept previews, including AI-generated images, and are not finished or client work."
+        title="Concepts & Explorations"
+        intro="Ideas, pitches and work in progress. Visuals here are temporary concept previews, many generated with AI (Google Gemini). They are not finished pieces and not client work."
         items={conceptProjects}
         onOpen={setOpenSlug}
         empty="Concept previews will be added here as projects get underway."

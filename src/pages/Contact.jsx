@@ -59,6 +59,7 @@ export default function Contact() {
   };
 
   const social = [
+    { label: 'YouTube (@rtanimateofficial)', href: links.youtube },
     { label: 'GitHub', href: links.github },
     { label: 'LinkedIn', href: links.linkedin },
     { label: 'ArtStation', href: links.artstation },
@@ -115,6 +116,12 @@ export default function Contact() {
 
       <motion.aside initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="card h-fit p-6">
         <h2 className="t-h3 mb-4">Elsewhere</h2>
+        {links.email && (
+          <p className="mb-4">
+            Business inquiries:{' '}
+            <a href={`mailto:${links.email}`} className="text-accent-ink underline underline-offset-4">{links.email}</a>
+          </p>
+        )}
         <ul className="space-y-3">
           {social.map((l) => (
             <li key={l.label}>

@@ -84,7 +84,7 @@ export default function ProjectLightbox({ isOpen, project, onClose, onPrev, onNe
 
         <div className="art-frame relative min-h-0 flex-1 bg-black">
           {preview ? (
-            <video className="max-h-[60vh] w-full object-contain" controls playsInline>
+            <video className="max-h-[60vh] w-full object-contain" controls playsInline poster={image || undefined}>
               <source src={preview} type={preview.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
             </video>
           ) : (

@@ -32,28 +32,28 @@ export const VISUAL_SOURCES = {
   mockup: 'Mockup for presentation. Not a live client deliverable.',
 };
 
-// Candidate entries from the Website & Portfolio Handoff (Nov 25, 2026).
-// All are unpublished until the owner confirms role, tools, rights and media.
-const meta = [
+// FEATURED PROJECTS (Website & Portfolio Handoff, Nov 25, 2026).
+// Unpublished until the owner confirms role, tools, status and supplies source media.
+const featured = [
   {
-    slug: 'rt-animation-identity',
-    title: 'RT.Animation Identity',
+    slug: 'rt-animation-brand-identity',
+    title: 'RT.Animation Brand Identity',
     status: 'in-development',
     published: false,
-    summary: 'Logo, profile icon and banner for the RT.Animation brand, with an animated logo reveal planned.',
+    summary: 'Logo, profile icon, banner and mascot for the RT.Animation brand.',
     role: 'OWNER TO CONFIRM',
-    tools: ['Illustrator'],
+    tools: ['Illustrator'], // owner reported Illustrator assembly; confirm full tool list
     aiAssisted: true,
-    visual: 'work-in-progress',
+    visual: 'final',
   },
   {
     slug: 'christmas-church-media-pack',
     title: 'Christmas Church Media Pack',
     status: 'real',
     published: false,
-    summary: 'Countdowns, loops and title graphics for church services, sold as a digital product.',
+    summary: 'Countdowns, motion backgrounds, lower thirds and title slides for church services, sold as a digital product.',
     role: 'OWNER TO CONFIRM',
-    tools: ['After Effects'],
+    tools: [], // OWNER TO CONFIRM
     aiAssisted: true,
     visual: 'final',
   },
@@ -64,22 +64,75 @@ const meta = [
     published: false,
     summary: 'An After Effects script that builds countdown timers from a few settings.',
     role: 'OWNER TO CONFIRM',
-    tools: ['After Effects', 'ExtendScript'],
+    tools: ['After Effects'], // OWNER TO CONFIRM
     aiAssisted: true,
     visual: 'work-in-progress',
   },
   {
     slug: 'raf-and-tre',
     title: 'Raf & Tre',
-    status: 'concept',
+    status: 'in-development',
     published: false,
     summary: 'An original animated project in development.',
     role: 'OWNER TO CONFIRM',
-    tools: [],
-    aiAssisted: false,
-    visual: 'ai-concept',
+    tools: [], // OWNER TO CONFIRM
+    aiAssisted: false, // OWNER TO CONFIRM
+    visual: 'work-in-progress',
   },
 ];
+
+// CONCEPTS & EXPLORATIONS. Gemini-assisted concept previews, not finished or client work.
+// Summaries follow the descriptions on the Gemini concept boards. Tools list only what was
+// actually used to make the preview visuals; no animation software is claimed.
+const CONCEPT = {
+  status: 'concept',
+  published: true,
+  role: 'Concept direction. Preview visuals generated with Google Gemini.', // OWNER TO CONFIRM wording
+  tools: ['Google Gemini'],
+  aiAssisted: true,
+  visual: 'ai-concept',
+};
+
+const concepts = [
+  {
+    ...CONCEPT,
+    slug: 'identity-in-motion',
+    title: 'Identity in Motion',
+    summary: 'A planned 5-second logo reveal that takes the RT. mark apart and reassembles it with light and particles.',
+  },
+  {
+    ...CONCEPT,
+    slug: 'words-in-motion',
+    title: 'Words in Motion',
+    summary: 'A planned 5-second kinetic typography piece built around the tagline “Bringing Ideas to Motion”.',
+  },
+  {
+    ...CONCEPT,
+    slug: 'sonic-product-visualization',
+    title: 'Sonic — Product Visualization',
+    summary: 'A planned 10-second product spot for a pair of headphones, focused on materials, detail and smooth camera moves.',
+  },
+  {
+    ...CONCEPT,
+    slug: 'beyond-the-frame',
+    title: 'Beyond the Frame',
+    summary: 'A planned 15-second character animation about breaking through limits, with a runner bursting out of a frame.',
+  },
+  {
+    ...CONCEPT,
+    slug: 'on-air-motion-identity',
+    title: 'On Air — Motion Identity',
+    summary: 'A broadcast graphics package concept: logo bug, lower third, transitions and an end card for live and recorded video.',
+  },
+  {
+    ...CONCEPT,
+    slug: 'creative-showreel',
+    title: 'RT.Animation — Creative Showreel',
+    summary: 'A planned 60-second showreel. The board shows the intended layout; it will be cut from finished work once that work exists.',
+  },
+];
+
+const meta = [...featured, ...concepts];
 
 // Load assets from src/assets/projects (the folder may be empty).
 const imagesCtx = require.context('../assets/projects', false, /\.(png|jpe?g|webp)$/i);
