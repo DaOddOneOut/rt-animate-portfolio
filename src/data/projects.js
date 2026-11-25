@@ -40,7 +40,7 @@ const featured = [
     title: 'RT.Animation Brand Identity',
     status: 'in-development',
     published: false,
-    summary: 'Logo, profile icon, banner and mascot for the RT.Animation brand.',
+    summary: 'The RT.Animation identity: the geometric ivory RT. mark with the gold dot, profile icon, banner and mascot (AI-assisted character design under owner creative direction).',
     role: 'OWNER TO CONFIRM',
     tools: ['Illustrator'], // owner reported Illustrator assembly; confirm full tool list
     aiAssisted: true,
@@ -81,13 +81,16 @@ const featured = [
   },
 ];
 
+// Official logo: the geometric ivory RT. mark with the gold dot. Do not use the serif RT or RTA
+// monograms in site assets (the Gemini logo-reveal clip used a serif RT, so it is not included).
+//
 // CONCEPTS & EXPLORATIONS. Gemini-assisted concept previews, not finished or client work.
 // Summaries follow the descriptions on the Gemini concept boards. Tools list only what was
 // actually used to make the preview visuals; no animation software is claimed.
 const CONCEPT = {
   status: 'concept',
   published: true,
-  role: 'Concept direction. Preview visuals generated with Google Gemini.', // OWNER TO CONFIRM wording
+  role: 'Concept direction. Preview visuals generated with Google Gemini.', // owner-approved wording
   tools: ['Google Gemini'],
   aiAssisted: true,
   visual: 'ai-concept',
@@ -108,8 +111,8 @@ const concepts = [
   },
   {
     ...CONCEPT,
-    slug: 'sonic-product-visualization',
-    title: 'Sonic — Product Visualization',
+    slug: 'resonance-product-visualization',
+    title: 'Resonance — Product Visualization',
     summary: 'A planned 10-second product spot for a pair of headphones, focused on materials, detail and smooth camera moves.',
   },
   {

@@ -1,11 +1,20 @@
 # Changes
 
-## Phase 1B: content and asset integration (same branch, local only, November 25, 2026)
+## Phase 1B owner decisions (November 25, 2026)
 
-Not pushed. Needs owner approval before the preview is updated.
+Applied after owner review; pushed to the PR #4 Preview only with owner approval.
+
+- "Sonic — Product Visualization" renamed **Resonance — Product Visualization** (data, slug, and the title baked into the concept board). The card now uses a crop without baked text.
+- On Air board (and the matching thumbnails on the Showreel board): social handle changed to **@rtanimateofficial**, sample presenter changed to **Speaker Name / Title**, and the non-official swoosh RT monogram removed.
+- Official logo recorded as the **geometric ivory RT. mark with the gold dot**. The Gemini logo-reveal clip used a serif RT, so it was removed from Identity in Motion (`identity-in-motion.preview.mp4` deleted).
+- Concept role wording approved: "Concept direction. Preview visuals generated with Google Gemini."
+- Home mascot now has a visible caption: "RT.Animation mascot. AI-assisted character design under owner creative direction." Chip text changed from "Same guy, two styles" to "One character, two styles".
+- The four featured projects stay unpublished.
+
+## Phase 1B: content and asset integration (same branch, November 25, 2026)
 
 ### Added
-- Six Gemini-assisted concepts in **Concepts & Explorations**, published with Concept preview badges, AI disclosure and "Google Gemini" as the only tool: Identity in Motion (with a 10-second logo-reveal preview clip), Words in Motion, Sonic — Product Visualization, Beyond the Frame, On Air — Motion Identity, RT.Animation — Creative Showreel. Summaries follow the descriptions on the Gemini concept boards; no animation software is claimed.
+- Six Gemini-assisted concepts in **Concepts & Explorations**, published with Concept preview badges, AI disclosure and "Google Gemini" as the only tool: Identity in Motion, Words in Motion, Sonic — Product Visualization (later renamed Resonance), Beyond the Frame, On Air — Motion Identity, RT.Animation — Creative Showreel. Summaries follow the descriptions on the Gemini concept boards; no animation software is claimed.
 - Assets in `src/assets/projects/`: for each concept, the concept board (`<slug>.webp`, lightbox), a clean art crop (`<slug>.card.webp`) and a blur placeholder; `identity-in-motion.preview.mp4` (re-encoded from the Gemini video, 720p, no audio, 1.9 MB).
 - `public/rt-mascot.webp`: RT.Animation mascot (owner-supplied), cropped to the circle at 800×800.
 - Business email `social@rtanimate.com` (Contact page and footer) and YouTube `@rtanimateofficial` (Contact page and footer), in `src/data/links.js`.

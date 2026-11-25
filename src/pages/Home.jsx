@@ -131,10 +131,14 @@ export default function Home() {
             <img src="/self-sketch.webp" alt="Chibi vector sketch of Rich" width="800" height="800" className="h-full w-full object-contain" />
           </motion.div>
 
-          <span className="chip chip-on absolute -right-2 top-5 rotate-3 !px-3">Same guy, two styles</span>
+          <span className="chip chip-on absolute -right-2 top-5 rotate-3 !px-3">One character, two styles</span>
           <span className="chip absolute left-1/2 top-[-0.9rem] -translate-x-1/2 whitespace-nowrap !px-3" aria-live="polite">
             Now drawn in {styles[active].name}
           </span>
+
+          <p className="absolute inset-x-0 -bottom-14 text-center text-xs text-muted">
+            RT.Animation mascot. AI-assisted character design under owner creative direction.
+          </p>
         </motion.div>
       </section>
 
