@@ -1,6 +1,7 @@
 // src/components/ProjectLightbox.jsx
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useStyleEngine } from '../theme/StyleContext';
 import { STATUS } from '../data/projects';
@@ -97,6 +98,9 @@ export default function ProjectLightbox({ isOpen, project, onClose, onPrev, onNe
           {role && <p className="mb-3 text-sm"><strong>My role:</strong> {role}</p>}
           {aiAssisted && <p className="mb-3 text-sm text-muted">Made with help from AI tools.</p>}
           {visualNote && <p className="mb-3 text-sm italic text-muted">{visualNote}</p>}
+          {project.caseStudy && (
+            <Link to={`/projects/${project.slug}`} onClick={onClose} className="btn mb-3">Read the case study</Link>
+          )}
           <div className="flex flex-wrap items-center gap-2">
             {projectStyle && <span className="chip chip-on">{projectStyle.name}</span>}
             {Array.isArray(tools) && tools.map((t) => <span key={t} className="chip">{t}</span>)}

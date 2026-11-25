@@ -1,5 +1,15 @@
 # Changes
 
+## Phase 1C: Christmas Church Media Pack case study (local, November 25, 2026)
+
+Not pushed. Needs owner approval before the Preview is updated.
+
+- Published **Christmas Church Media Pack** in Real Projects, with a case-study page at `/projects/christmas-church-media-pack`: overview and contents, creative objective, my role, AI-assisted production disclosure, software and testing (ProPresenter 22 on Windows, Canva; other apps not tested), finished product previews, and Etsy and Gumroad purchase links. Facts come from the Passive Income & Content Handoff.
+- Media are actual product footage: `RTAnimation_Christmas_Vertical_v3.mp4` from Drive (recorded in ProPresenter from the pack files) and three frames cut from it. No generated replacement artwork.
+- New: `src/pages/CaseStudy.jsx`, route `/projects/:slug` (unpublished or case-study-less slugs show the 404 page), and a `caseStudy` field in `src/data/projects.js`. Case-study pages use the Portfolio page style and highlight Portfolio in the nav.
+- Projects with a case study open their page from the card; the lightbox also links to it.
+- The other three featured projects stay unpublished.
+
 ## Phase 1B owner decisions (November 25, 2026)
 
 Applied after owner review; pushed to the PR #4 Preview only with owner approval.

@@ -2,7 +2,7 @@
 // Two clearly separated sections: finished work (Real Projects) and Concepts & Explorations.
 // Concept and in-development items always carry a visible status badge and a note about the visual.
 import { useCallback, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { realProjects, conceptProjects, STATUS } from '../data/projects';
 import { useStyleEngine } from '../theme/StyleContext';
@@ -30,6 +30,11 @@ function ProjectCard({ project, index, onOpen }) {
           <h3 className="t-h3 mb-1">{project.title}</h3>
           <p className="mb-3 line-clamp-3 text-sm text-muted">{project.summary}</p>
           {project.visualNote && <p className="mb-3 text-xs italic text-muted">{project.visualNote}</p>}
+          {project.caseStudy && (
+            <Link to={`/projects/${project.slug}`} className="mb-3 text-sm font-bold text-accent-ink underline underline-offset-4">
+              Read the case study
+            </Link>
+          )}
           <div className="mt-auto flex flex-wrap gap-2">
             {project.style && styles[project.style] && <span className="chip chip-on">{styles[project.style].name}</span>}
             {project.tools.map((t) => (
@@ -62,6 +67,16 @@ function Section({ id, title, intro, items, empty, onOpen }) {
 
 export default function ProjectsGallery() {
   const [openSlug, setOpenSlug] = useState(null);
+  const navigate = useNavigate();
+  // Projects with a case study open their own page; the rest open in the lightbox.
+  const open = useCallback(
+    (slug) => {
+      const p = [...realProjects, ...conceptProjects].find((x) => x.slug === slug);
+      if (p?.caseStudy) navigate(`/projects/${slug}`);
+      else setOpenSlug(slug);
+    },
+    [navigate],
+  );
 
   // One ordered list so the lightbox can step through everything, section by section.
   const list = useMemo(() => [...realProjects, ...conceptProjects], []);
@@ -86,7 +101,7 @@ export default function ProjectsGallery() {
         title="Real Projects"
         intro="Completed work, with my role and the tools I used on each one."
         items={realProjects}
-        onOpen={setOpenSlug}
+        onOpen={open}
         empty={
           <>
             New finished pieces are being prepared and will appear here soon. In the meantime, feel free to{' '}
@@ -100,7 +115,7 @@ export default function ProjectsGallery() {
         title="Concepts & Explorations"
         intro="Ideas, pitches and work in progress. Visuals here are temporary concept previews, many generated with AI (Google Gemini). They are not finished pieces and not client work."
         items={conceptProjects}
-        onOpen={setOpenSlug}
+        onOpen={open}
         empty="Concept previews will be added here as projects get underway."
       />
 

@@ -21,7 +21,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const LinkItem = ({ item, onClick, className = '' }) => {
-    const current = pathname === item.path;
+    const current = pathname === item.path || (item.path !== '/' && pathname.startsWith(`${item.path}/`));
     return (
       <Link
         to={item.path}

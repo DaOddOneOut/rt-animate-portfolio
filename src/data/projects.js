@@ -46,16 +46,61 @@ const featured = [
     aiAssisted: true,
     visual: 'final',
   },
+  // Case study built from the Passive Income & Content Handoff (Nov 25, 2026).
+  // Images are frames from the RT.Animation promo video (RTAnimation_Christmas_Vertical_v3.mp4),
+  // which was recorded in ProPresenter from the actual pack files. No generated replacement art.
   {
     slug: 'christmas-church-media-pack',
     title: 'Christmas Church Media Pack',
     status: 'real',
-    published: false,
-    summary: 'Countdowns, motion backgrounds, lower thirds and title slides for church services, sold as a digital product.',
-    role: 'OWNER TO CONFIRM',
-    tools: [], // OWNER TO CONFIRM
+    published: true,
+    summary: 'A ready-to-use set of countdowns, motion backgrounds, title screens and lower thirds for Christmas church services. On sale on Etsy and Gumroad.',
+    role: 'Concept, creative direction, testing and release. Files built and reviewed with AI tools.', // OWNER TO CONFIRM wording
+    tools: ['ChatGPT', 'Claude'],
     aiAssisted: true,
     visual: 'final',
+    caseStudy: {
+      overview: [
+        'A digital download for church media teams: 34 files in one navy-and-gold design, all at 1920 × 1080.',
+        'It was published on Etsy on November 13, 2026 and is also sold on Gumroad.',
+      ],
+      contents: [
+        '2 countdowns (5 minutes and 1 minute) that hold on 00:00',
+        '4 seamless, text-free motion loops (24 seconds) with 4 matching stills',
+        '8 title screens: Welcome, Merry Christmas, Christmas Eve Service, Announcements, Giving, Prayer, Message, Closing',
+        '3 lower thirds (Speaker, Scripture, Announcement) as transparent PNGs and editable SVGs',
+        '8 text-free social stills, square and vertical',
+        'A START_HERE guide and a single-organization license',
+      ],
+      formats: 'H.264 MP4 at 24 fps (silent), PNG and SVG. Fonts: Cormorant Garamond and DM Sans (SIL Open Font License).',
+      objective: // OWNER TO CONFIRM wording
+        'Give church volunteers one consistent set of Christmas service graphics they can drop straight into their presentation software: a countdown before the service, text-free backgrounds for lyrics, titles for each part of the service and matching lower thirds.',
+      role: [ // OWNER TO CONFIRM wording; drawn from the handoff record
+        'Product concept, name and RT.Animation branding.',
+        'Creative direction and review of each build.',
+        'Playback testing in ProPresenter and Canva.',
+        'Screen recordings for the promo video.',
+        'Publishing and managing the Etsy and Gumroad listings.',
+      ],
+      aiDisclosure:
+        'This pack was made with AI assistance. The artwork and the build scripts that render the files were generated with ChatGPT under my direction, and Claude checked the finished files and fixed problems it found. AI use is also disclosed on the Etsy listing.',
+      testing: [
+        'Tested in ProPresenter 22 on Windows (November 2026).',
+        'Tested in Canva (November 23, 2026): all test files uploaded, including the SVG; in Present mode the 1-minute countdown stopped and held on 00:00; the Star Light loop ran past its 24-second point with no visible jump; the PNG and SVG lower thirds displayed correctly.',
+        'Other applications have not been tested.',
+      ],
+      previews: [
+        { file: 'gallery-1', caption: 'Countdown: a pack countdown playing in ProPresenter, with a close-up of the timer.' },
+        { file: 'gallery-2', caption: 'Motion background: a text-free loop with lyrics on top. The lyrics are example text added for the demo.' },
+        { file: 'gallery-3', caption: 'Lower third: the Speaker lower third over a loop. "Example speaker" is sample text.' },
+      ],
+      previewNote: 'Frames from the RT.Animation promo video, recorded in ProPresenter from the actual pack files.',
+      video: 'promo',
+      links: [
+        { label: 'Buy on Gumroad', href: 'https://animatrix186.gumroad.com/l/christmas-church-media-pack' },
+        { label: 'Buy on Etsy', href: 'https://www.etsy.com/listing/4616209245/christmas-church-media-pack-with' },
+      ],
+    },
   },
   {
     slug: 'countdown-builder',
@@ -140,6 +185,7 @@ const meta = [...featured, ...concepts];
 // Load assets from src/assets/projects (the folder may be empty).
 const imagesCtx = require.context('../assets/projects', false, /\.(png|jpe?g|webp)$/i);
 const videosCtx = require.context('../assets/projects', false, /\.preview\.(webm|mp4)$/i);
+const mediaCtx = require.context('../assets/projects', false, /\.(webp|png|jpe?g|mp4|webm)$/i);
 
 function tryGet(ctx, filename) {
   try {
@@ -161,7 +207,18 @@ const projects = meta
     blur: firstOf(imagesCtx, p.slug, ['.blur.webp', '.blur.png', '.blur.jpg']),
     preview: firstOf(videosCtx, p.slug, ['.preview.webm', '.preview.mp4']),
     visualNote: VISUAL_SOURCES[p.visual] ?? null,
+    caseStudy: p.caseStudy
+      ? {
+          ...p.caseStudy,
+          previews: (p.caseStudy.previews || [])
+            .map((g) => ({ ...g, src: firstOf(mediaCtx, `${p.slug}.${g.file}`, ['.webp', '.png', '.jpg']) }))
+            .filter((g) => g.src),
+          video: p.caseStudy.video ? firstOf(mediaCtx, `${p.slug}.${p.caseStudy.video}`, ['.mp4', '.webm']) : null,
+        }
+      : null,
   }));
+
+export const findProject = (slug) => projects.find((p) => p.slug === slug) || null;
 
 export const realProjects = projects.filter((p) => p.status === 'real');
 export const conceptProjects = projects.filter((p) => p.status === 'concept' || p.status === 'in-development');
