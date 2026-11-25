@@ -21,7 +21,7 @@ export default function CaseStudy() {
   const project = findProject(slug);
   if (!project || !project.caseStudy) return <NotFound />;
 
-  const { title, summary, tools, status } = project;
+  const { title, summary, tools, testedWith, status } = project;
   const cs = project.caseStudy;
 
   return (
@@ -75,11 +75,15 @@ export default function CaseStudy() {
         </Section>
       )}
 
-      {cs.role?.length > 0 && (
+      {cs.role && (
         <Section id="role" title="My role">
-          <ul className="list-disc space-y-1 pl-6">
-            {cs.role.map((r) => <li key={r}>{r}</li>)}
-          </ul>
+          {Array.isArray(cs.role) ? (
+            <ul className="list-disc space-y-1 pl-6">
+              {cs.role.map((r) => <li key={r}>{r}</li>)}
+            </ul>
+          ) : (
+            <p className="text-lg">{cs.role}</p>
+          )}
         </Section>
       )}
 
@@ -88,7 +92,8 @@ export default function CaseStudy() {
           <div className="card p-5">
             <p>{cs.aiDisclosure}</p>
             {tools?.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="text-sm font-bold">Production tools:</span>
                 {tools.map((t) => <span key={t} className="chip">{t}</span>)}
               </div>
             )}
@@ -98,6 +103,12 @@ export default function CaseStudy() {
 
       {cs.testing?.length > 0 && (
         <Section id="testing" title="Software and testing">
+          {testedWith?.length > 0 && (
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <span className="text-sm font-bold">Compatibility testing:</span>
+              {testedWith.map((t) => <span key={t} className="chip">{t}</span>)}
+            </div>
+          )}
           <ul className="list-disc space-y-2 pl-6">
             {cs.testing.map((t) => <li key={t}>{t}</li>)}
           </ul>

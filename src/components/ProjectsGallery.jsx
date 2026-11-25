@@ -40,6 +40,9 @@ function ProjectCard({ project, index, onOpen }) {
             {project.tools.map((t) => (
               <span key={t} className="chip">{t}</span>
             ))}
+            {project.testedWith?.length > 0 && (
+              <span className="w-full text-xs text-muted">Tested in {project.testedWith.join(' and ')}</span>
+            )}
           </div>
         </div>
       </article>

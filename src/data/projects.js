@@ -55,8 +55,9 @@ const featured = [
     status: 'real',
     published: true,
     summary: 'A ready-to-use set of countdowns, motion backgrounds, title screens and lower thirds for Christmas church services. On sale on Etsy and Gumroad.',
-    role: 'Concept, creative direction, testing and release. Files built and reviewed with AI tools.', // OWNER TO CONFIRM wording
-    tools: ['ChatGPT', 'Claude'],
+    role: 'Product concept, creative direction, branding, production review, compatibility testing, promotional screen recording and digital storefront management.', // owner-approved
+    tools: ['ChatGPT', 'Claude'], // production tools
+    testedWith: ['ProPresenter 22', 'Canva'], // compatibility testing tools
     aiAssisted: true,
     visual: 'final',
     caseStudy: {
@@ -73,17 +74,12 @@ const featured = [
         'A START_HERE guide and a single-organization license',
       ],
       formats: 'H.264 MP4 at 24 fps (silent), PNG and SVG. Fonts: Cormorant Garamond and DM Sans (SIL Open Font License).',
-      objective: // OWNER TO CONFIRM wording
-        'Give church volunteers one consistent set of Christmas service graphics they can drop straight into their presentation software: a countdown before the service, text-free backgrounds for lyrics, titles for each part of the service and matching lower thirds.',
-      role: [ // OWNER TO CONFIRM wording; drawn from the handoff record
-        'Product concept, name and RT.Animation branding.',
-        'Creative direction and review of each build.',
-        'Playback testing in ProPresenter and Canva.',
-        'Screen recordings for the promo video.',
-        'Publishing and managing the Etsy and Gumroad listings.',
-      ],
+      // Owner-approved wording (November 25, 2026).
+      objective:
+        'Provide church media teams and volunteers with a consistent collection of Christmas service graphics that are easy to integrate into presentation software.',
+      role: 'Product concept, creative direction, branding, production review, compatibility testing, promotional screen recording and digital storefront management.',
       aiDisclosure:
-        'This pack was made with AI assistance. The artwork and the build scripts that render the files were generated with ChatGPT under my direction, and Claude checked the finished files and fixed problems it found. AI use is also disclosed on the Etsy listing.',
+        'Artwork and production scripts were generated with ChatGPT under my creative direction. Claude assisted with technical review, quality control and corrections.',
       testing: [
         'Tested in ProPresenter 22 on Windows (November 2026).',
         'Tested in Canva (November 23, 2026): all test files uploaded, including the SVG; in Present mode the 1-minute countdown stopped and held on 00:00; the Star Light loop ran past its 24-second point with no visible jump; the PNG and SVG lower thirds displayed correctly.',

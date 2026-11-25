@@ -104,6 +104,7 @@ export default function ProjectLightbox({ isOpen, project, onClose, onPrev, onNe
           <div className="flex flex-wrap items-center gap-2">
             {projectStyle && <span className="chip chip-on">{projectStyle.name}</span>}
             {Array.isArray(tools) && tools.map((t) => <span key={t} className="chip">{t}</span>)}
+            {project.testedWith?.length > 0 && <span className="w-full text-xs text-muted">Tested in {project.testedWith.join(' and ')}</span>}
           </div>
           {canRestyle && (
             <button

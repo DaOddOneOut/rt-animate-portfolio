@@ -1,8 +1,8 @@
 # Changes
 
-## Phase 1C: Christmas Church Media Pack case study (local, November 25, 2026)
+## Phase 1C: Christmas Church Media Pack case study (November 25, 2026)
 
-Not pushed. Needs owner approval before the Preview is updated.
+Owner-approved and pushed to the PR #4 Preview only. Role, AI-assisted production and creative objective use the owner's approved wording. Production tools (ChatGPT, Claude) are shown separately from compatibility testing tools (ProPresenter 22, Canva).
 
 - Published **Christmas Church Media Pack** in Real Projects, with a case-study page at `/projects/christmas-church-media-pack`: overview and contents, creative objective, my role, AI-assisted production disclosure, software and testing (ProPresenter 22 on Windows, Canva; other apps not tested), finished product previews, and Etsy and Gumroad purchase links. Facts come from the Passive Income & Content Handoff.
 - Media are actual product footage: `RTAnimation_Christmas_Vertical_v3.mp4` from Drive (recorded in ProPresenter from the pack files) and three frames cut from it. No generated replacement artwork.
