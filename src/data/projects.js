@@ -1,89 +1,89 @@
 // src/data/projects.js (CRA / Webpack)
-// Auto-maps images + optional blur + optional video previews via require.context.
-// `style` = which of the 10 animation styles the piece leans on (see src/theme/styles.js).
-// It powers the filter chips on the Projects page, so change it to whatever fits best.
-// Per project the assets are:  <slug>.webp (full size, lightbox)  <slug>.card.webp (grid thumb)
-//                              <slug>.blur.webp (tiny placeholder)  <slug>.preview.webm|mp4 (optional hover clip)
+//
+// Portfolio content lives here. Every entry must be honest about what it is.
+// See README.md > "Adding portfolio items" for the full checklist.
+//
+// status       'real'            finished work the owner made or contributed to, with rights to show it
+//              'concept'         an idea or pitch, shown only as a concept preview
+//              'in-development'  real work that is not finished yet
+// published    false keeps an entry out of the public site until the owner approves it.
+// role         what Rich actually did on this project, in plain words (required for 'real').
+// tools        software actually used. List only tools that were used on this project.
+// visual       where the card image comes from. Pick one key from VISUAL_SOURCES below.
+// style        optional; one of the 10 site styles (src/theme/styles.js) the piece leans on.
+//
+// Assets go in src/assets/projects/ and are found by slug:
+//   <slug>.webp        full size, used in the lightbox
+//   <slug>.card.webp   grid thumbnail (optional; falls back to <slug>.webp)
+//   <slug>.blur.webp   tiny blurred placeholder (optional)
+//   <slug>.preview.webm | .mp4   optional hover / lightbox clip
 
+export const STATUS = {
+  real: { label: 'Completed project' },
+  'in-development': { label: 'In development' },
+  concept: { label: 'Concept preview' },
+};
+
+// Shown on every card and in the lightbox so visitors always know what they are looking at.
+export const VISUAL_SOURCES = {
+  final: null, // the image is the real finished work; no extra note
+  'work-in-progress': 'Work-in-progress frame. Not final artwork.',
+  'ai-concept': 'Temporary AI-generated concept visual. Not final artwork and not client work.',
+  mockup: 'Mockup for presentation. Not a live client deliverable.',
+};
+
+// Candidate entries from the Website & Portfolio Handoff (Nov 25, 2026).
+// All are unpublished until the owner confirms role, tools, rights and media.
 const meta = [
   {
-    slug: "01UnboxTheJourney",
-    style: "cel",
-    title: "Unbox: The Journey of an Idea",
-    description:
-      "A curated selection of my latest motion design and traditional 2D animation work, combining frame-by-frame charm with modern techniques.",
-    tech: ["After Effects", "Photoshop", "Traditional 2D"],
+    slug: 'rt-animation-identity',
+    title: 'RT.Animation Identity',
+    status: 'in-development',
+    published: false,
+    summary: 'Logo, profile icon and banner for the RT.Animation brand, with an animated logo reveal planned.',
+    role: 'OWNER TO CONFIRM',
+    tools: ['Illustrator'],
+    aiAssisted: true,
+    visual: 'work-in-progress',
   },
   {
-    slug: "02SignalSync",
-    style: "cutout",
-    title: "Signal Sync",
-    description:
-      "An animated breakdown showcasing custom rig setups for expressive characters used in short films and game prototypes.",
-    tech: ["Adobe Animate", "Illustrator", "Rigging"],
+    slug: 'christmas-church-media-pack',
+    title: 'Christmas Church Media Pack',
+    status: 'real',
+    published: false,
+    summary: 'Countdowns, loops and title graphics for church services, sold as a digital product.',
+    role: 'OWNER TO CONFIRM',
+    tools: ['After Effects'],
+    aiAssisted: true,
+    visual: 'final',
   },
   {
-    slug: "03FramebyFrame",
-    style: "abstract",
-    title: "Frame by Frame: The Loop Within",
-    description:
-      "Experimental VJ visuals built using beat detection and animated loops inspired by frame-by-frame timing principles.",
-    tech: ["After Effects", "Cinema 4D", "Sound Design"],
+    slug: 'countdown-builder',
+    title: 'Countdown Builder',
+    status: 'in-development',
+    published: false,
+    summary: 'An After Effects script that builds countdown timers from a few settings.',
+    role: 'OWNER TO CONFIRM',
+    tools: ['After Effects', 'ExtendScript'],
+    aiAssisted: true,
+    visual: 'work-in-progress',
   },
   {
-    slug: "04IdleSpark",
-    style: "cel",
-    title: "Idle Spark",
-    description:
-      "A traditional frame-by-frame animated logo intro using rough passes and onion-skinning.",
-    tech: ["Photoshop", "After Effects", "Hand Drawn"],
-  },
-  {
-    slug: "05ElliesVille",
-    style: "whiteboard",
-    title: "Ellies Ville: A Pastry Tale",
-    description:
-      "A side-by-side animation sequence showing storyboard panels transforming into full-motion animation.",
-    tech: ["Storyboarding", "After Effects", "Photoshop"],
-  },
-  {
-    slug: "06DigitalGhosts",
-    style: "flat",
-    title: "Digital Ghosts",
-    description:
-      "Micro-interactions and motion elements crafted for mobile apps and animated web components.",
-    tech: ["Figma", "After Effects", "React.js"],
-  },
-  {
-    slug: "07StylustheSword",
-    style: "vector",
-    title: "The Stylus and the Sword",
-    description:
-      "A loopable character morph animation from sketch to final design, ideal for idle game characters.",
-    tech: ["Animate", "Illustrator", "GIF"],
-  },
-  {
-    slug: "08MatchaVerse",
-    style: "anime",
-    title: "MatchaVerse: The Ritual Reimagined",
-    description:
-      "An opening title animation with frame-by-frame effects and layered music syncing.",
-    tech: ["After Effects", "Audition", "Title Design"],
-  },
-  {
-    slug: "09Looped",
-    style: "chibi",
-    title: "Looped",
-    description:
-      "A funny, fast-paced chibi-style battle scene with exaggerated squash & stretch motion.",
-    tech: ["Photoshop", "Animate", "Frame Timing"],
+    slug: 'raf-and-tre',
+    title: 'Raf & Tre',
+    status: 'concept',
+    published: false,
+    summary: 'An original animated project in development.',
+    role: 'OWNER TO CONFIRM',
+    tools: [],
+    aiAssisted: false,
+    visual: 'ai-concept',
   },
 ];
 
-// Load assets from src/assets/projects
-const imagesCtx = require.context("../assets/projects", false, /\.(png|jpe?g|webp)$/i);
-const blursCtx = require.context("../assets/projects", false, /\.blur\.(png|jpe?g|webp)$/i);
-const videosCtx = require.context("../assets/projects", false, /\.preview\.(webm|mp4)$/i);
+// Load assets from src/assets/projects (the folder may be empty).
+const imagesCtx = require.context('../assets/projects', false, /\.(png|jpe?g|webp)$/i);
+const videosCtx = require.context('../assets/projects', false, /\.preview\.(webm|mp4)$/i);
 
 function tryGet(ctx, filename) {
   try {
@@ -93,31 +93,21 @@ function tryGet(ctx, filename) {
   }
 }
 
-function getVideo(slug) {
-  // prefer webm, fallback mp4
-  return (
-    tryGet(videosCtx, `${slug}.preview.webm`) ||
-    tryGet(videosCtx, `${slug}.preview.mp4`) ||
-    null
-  );
-}
+const firstOf = (ctx, slug, exts) => exts.map((e) => tryGet(ctx, `${slug}${e}`)).find(Boolean) || null;
 
-const projects = meta.map((p) => ({
-  ...p,
-  image:
-    tryGet(imagesCtx, `${p.slug}.png`) ||
-    tryGet(imagesCtx, `${p.slug}.jpg`) ||
-    tryGet(imagesCtx, `${p.slug}.jpeg`) ||
-    tryGet(imagesCtx, `${p.slug}.webp`) ||
-    null,
-  thumb: tryGet(imagesCtx, `${p.slug}.card.webp`) || null,
-  blur:
-    tryGet(blursCtx, `${p.slug}.blur.jpg`) ||
-    tryGet(blursCtx, `${p.slug}.blur.jpeg`) ||
-    tryGet(blursCtx, `${p.slug}.blur.png`) ||
-    tryGet(blursCtx, `${p.slug}.blur.webp`) ||
-    null,
-  preview: getVideo(p.slug),
-}));
+const projects = meta
+  .filter((p) => p.published)
+  .map((p) => ({
+    ...p,
+    tools: p.tools || [],
+    image: firstOf(imagesCtx, p.slug, ['.webp', '.png', '.jpg', '.jpeg']),
+    thumb: firstOf(imagesCtx, p.slug, ['.card.webp']),
+    blur: firstOf(imagesCtx, p.slug, ['.blur.webp', '.blur.png', '.blur.jpg']),
+    preview: firstOf(videosCtx, p.slug, ['.preview.webm', '.preview.mp4']),
+    visualNote: VISUAL_SOURCES[p.visual] ?? null,
+  }));
+
+export const realProjects = projects.filter((p) => p.status === 'real');
+export const conceptProjects = projects.filter((p) => p.status === 'concept' || p.status === 'in-development');
 
 export default projects;

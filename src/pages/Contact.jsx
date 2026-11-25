@@ -121,9 +121,11 @@ export default function Contact() {
               <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-accent-ink underline underline-offset-4">{l.label}</a>
             </li>
           ))}
-          <li>
-            <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Download my resume</a>
-          </li>
+          {links.resume && (
+            <li>
+              <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Download my resume</a>
+            </li>
+          )}
         </ul>
       </motion.aside>
     </section>

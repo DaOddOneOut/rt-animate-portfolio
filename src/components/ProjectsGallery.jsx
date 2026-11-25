@@ -1,83 +1,108 @@
 // src/components/ProjectsGallery.jsx
+// Two clearly separated sections: finished work, and concepts / work in development.
+// Concept and in-development items always carry a visible status badge and a note about the visual.
 import { useCallback, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import projects from '../data/projects';
-import { STYLE_ORDER } from '../theme/styles';
+import { realProjects, conceptProjects, STATUS } from '../data/projects';
 import { useStyleEngine } from '../theme/StyleContext';
 import ProjectMediaCard from './ProjectMediaCard';
 import ProjectLightbox from './ProjectLightbox';
 
-export default function ProjectsGallery() {
+function ProjectCard({ project, index, onOpen }) {
   const { styles } = useStyleEngine();
-  const [filter, setFilter] = useState('all');
+  const isFinished = project.status === 'real';
+  return (
+    <motion.li
+      className="tilt"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <article className="card card-hover flex h-full flex-col overflow-hidden">
+        <ProjectMediaCard
+          project={project}
+          className="aspect-[16/10] border-b-[length:var(--border-w)] border-line"
+          onClick={onOpen}
+        />
+        <div className="flex flex-1 flex-col p-4">
+          {!isFinished && <p className="mb-2 text-xs font-bold uppercase tracking-wide text-accent-ink">{STATUS[project.status].label}</p>}
+          <h3 className="t-h3 mb-1">{project.title}</h3>
+          <p className="mb-3 line-clamp-3 text-sm text-muted">{project.summary}</p>
+          {project.visualNote && <p className="mb-3 text-xs italic text-muted">{project.visualNote}</p>}
+          <div className="mt-auto flex flex-wrap gap-2">
+            {project.style && styles[project.style] && <span className="chip chip-on">{styles[project.style].name}</span>}
+            {project.tools.map((t) => (
+              <span key={t} className="chip">{t}</span>
+            ))}
+          </div>
+        </div>
+      </article>
+    </motion.li>
+  );
+}
+
+function Section({ id, title, intro, items, empty, onOpen }) {
+  return (
+    <section aria-labelledby={id} className="mb-16">
+      <h2 id={id} className="t-h2 mb-2">{title}</h2>
+      <p className="mb-6 max-w-2xl text-muted">{intro}</p>
+      {items.length > 0 ? (
+        <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((p, i) => (
+            <ProjectCard key={p.slug} project={p} index={i} onOpen={() => onOpen(p.slug)} />
+          ))}
+        </ul>
+      ) : (
+        <div className="card p-6 text-muted">{empty}</div>
+      )}
+    </section>
+  );
+}
+
+export default function ProjectsGallery() {
   const [openSlug, setOpenSlug] = useState(null);
 
-  // only offer filters for styles that at least one project uses
-  const usedStyles = useMemo(() => STYLE_ORDER.filter((id) => projects.some((p) => p.style === id)), []);
-  const list = useMemo(() => (filter === 'all' ? projects : projects.filter((p) => p.style === filter)), [filter]);
-
+  // One ordered list so the lightbox can step through everything, section by section.
+  const list = useMemo(() => [...realProjects, ...conceptProjects], []);
   const index = openSlug ? list.findIndex((p) => p.slug === openSlug) : -1;
   const close = useCallback(() => setOpenSlug(null), []);
   const prev = useCallback(() => index > 0 && setOpenSlug(list[index - 1].slug), [index, list]);
   const next = useCallback(() => index >= 0 && index < list.length - 1 && setOpenSlug(list[index + 1].slug), [index, list]);
 
   return (
-    <section aria-labelledby="works-title">
-      <header className="mb-8">
-        <h1 id="works-title" className="t-h1 text-accent-ink">
-          <span className="scribble">Animated Works</span>
+    <div>
+      <header className="mb-12">
+        <h1 className="t-h1 text-accent-ink">
+          <span className="scribble">Portfolio</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          Click any piece to expand it. Each project is tagged with the animation style it leans on, so you can filter the reel by style.
+          Finished work is listed first. Concepts and projects still in development are kept in their own section and labeled as such.
         </p>
       </header>
 
-      <div role="group" aria-label="Filter projects by animation style" className="mb-8 flex flex-wrap gap-2">
-        <button type="button" aria-pressed={filter === 'all'} onClick={() => setFilter('all')} className={`chip !px-4 !py-1.5 ${filter === 'all' ? 'chip-on' : ''}`}>
-          All ({projects.length})
-        </button>
-        {usedStyles.map((id) => (
-          <button
-            key={id}
-            type="button"
-            aria-pressed={filter === id}
-            onClick={() => setFilter(id)}
-            className={`chip !px-4 !py-1.5 ${filter === id ? 'chip-on' : ''}`}
-          >
-            {styles[id].name}
-          </button>
-        ))}
-      </div>
+      <Section
+        id="real-projects"
+        title="Real Projects"
+        intro="Completed work, with my role and the tools I used on each one."
+        items={realProjects}
+        onOpen={setOpenSlug}
+        empty={
+          <>
+            New finished pieces are being prepared and will appear here soon. In the meantime, feel free to{' '}
+            <Link to="/contact" className="text-accent-ink underline underline-offset-4">get in touch</Link>.
+          </>
+        }
+      />
 
-      <ul key={filter} className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((p, i) => (
-          <motion.li
-            key={p.slug}
-            className="tilt"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: i * 0.05 }}
-          >
-            <article className="card card-hover flex h-full flex-col overflow-hidden">
-              <ProjectMediaCard
-                project={p}
-                className="aspect-[16/10] border-b-[length:var(--border-w)] border-line"
-                onClick={() => setOpenSlug(p.slug)}
-              />
-              <div className="flex flex-1 flex-col p-4">
-                <h2 className="t-h3 mb-1">{p.title}</h2>
-                <p className="mb-3 line-clamp-3 text-sm text-muted">{p.description}</p>
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {p.style && <span className="chip chip-on">{styles[p.style].name}</span>}
-                  {p.tech?.map((t) => (
-                    <span key={t} className="chip">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          </motion.li>
-        ))}
-      </ul>
+      <Section
+        id="concepts"
+        title="Concepts / In Development"
+        intro="Ideas and works in progress. Visuals here may be temporary concept previews, including AI-generated images, and are not finished or client work."
+        items={conceptProjects}
+        onOpen={setOpenSlug}
+        empty="Concept previews will be added here as projects get underway."
+      />
 
       <ProjectLightbox
         isOpen={index >= 0}
@@ -88,6 +113,6 @@ export default function ProjectsGallery() {
         hasPrev={index > 0}
         hasNext={index >= 0 && index < list.length - 1}
       />
-    </section>
+    </div>
   );
 }

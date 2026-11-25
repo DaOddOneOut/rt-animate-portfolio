@@ -2,10 +2,15 @@
 // The clickable artwork thumbnail: tiny blurred placeholder first, then the card-sized image,
 // and an optional hover preview clip if <slug>.preview.webm|mp4 exists.
 import { useEffect, useRef, useState } from 'react';
+import { STATUS } from '../data/projects';
 
 export default function ProjectMediaCard({ project, className = '', onClick }) {
-  const { title, image, thumb, blur, preview } = project;
+  const { title, image, thumb, blur, preview, status } = project;
   const src = thumb || image;
+  // Anything that is not finished work keeps its label on the image itself, so a cropped
+  // screenshot or a shared thumbnail still says what it is.
+  const badge = status && status !== 'real' ? STATUS[status]?.label : null;
+  const altText = badge ? `${title} (${badge.toLowerCase()})` : title;
 
   const [loaded, setLoaded] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -27,7 +32,7 @@ export default function ProjectMediaCard({ project, className = '', onClick }) {
     <button
       type="button"
       onClick={onClick}
-      aria-label={`Open ${title}`}
+      aria-label={`Open ${altText}`}
       className={`art-frame px-art group relative block w-full overflow-hidden text-left ${className}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -47,7 +52,7 @@ export default function ProjectMediaCard({ project, className = '', onClick }) {
       {src ? (
         <img
           src={src}
-          alt={title}
+          alt={altText}
           loading="lazy"
           decoding="async"
           draggable="false"
@@ -55,7 +60,7 @@ export default function ProjectMediaCard({ project, className = '', onClick }) {
           className={`h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04] ${loaded ? 'opacity-100' : 'opacity-0'}`}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-sm text-muted">Missing image</div>
+        <div className="flex h-full w-full items-center justify-center text-sm text-muted">No image yet</div>
       )}
 
       {preview && (
@@ -69,6 +74,12 @@ export default function ProjectMediaCard({ project, className = '', onClick }) {
         >
           <source src={preview} type={preview.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
         </video>
+      )}
+
+      {badge && (
+        <span className="chip chip-on pointer-events-none absolute left-3 top-3 !text-xs font-bold uppercase tracking-wide">
+          {badge}
+        </span>
       )}
 
       <span className="chip chip-on pointer-events-none absolute bottom-3 right-3 opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">

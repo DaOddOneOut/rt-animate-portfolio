@@ -5,28 +5,13 @@ import skills from '../data/skills';
 import links from '../data/links';
 import { BRAND } from '../data/site';
 
-// Draft copy: edit these to match how you really work.
+// General working process. Owner to confirm the wording matches how he works.
 const steps = [
-  { t: 'Story first', d: 'Every piece starts with the idea and who it is for.' },
-  { t: 'Boards & timing', d: 'Storyboards and rough passes to find the rhythm.' },
-  { t: 'Animate', d: 'Frame-by-frame, rigged, or motion graphics, whatever serves the story.' },
-  { t: 'Polish & deliver', d: 'Color, sound sync, and export in the format you need.' },
+  { t: 'Idea first', d: 'Every piece starts with the idea and who it is for.' },
+  { t: 'Plan & design', d: 'Sketches, layouts and timing before anything moves.' },
+  { t: 'Animate', d: 'Motion graphics and animation built to fit the piece.' },
+  { t: 'Polish & deliver', d: 'Final checks and export in the format you need.' },
 ];
-
-const Pips = ({ level }) => {
-  const filled = Math.round(level / 20);
-  return (
-    <span role="img" aria-label={`Proficiency ${filled} out of 5`} title={`${level}%`} className="flex gap-1">
-      {Array.from({ length: 5 }, (_, i) => (
-        <span
-          key={i}
-          className="block h-3 w-3 border border-line"
-          style={{ background: i < filled ? 'rgb(var(--accent))' : 'transparent', borderRadius: 'min(var(--btn-radius), 50%)' }}
-        />
-      ))}
-    </span>
-  );
-};
 
 export default function About() {
   return (
@@ -48,17 +33,20 @@ export default function About() {
           transition={{ type: 'spring', stiffness: 120, damping: 14 }}
         >
           <img src="/self-sketch.webp" alt="Chibi vector sketch of Rich on a city street" width="800" height="800" className="aspect-square w-full rounded-full object-contain" />
-          <figcaption className="mt-2 text-center text-sm text-muted">Me, drawn by me</figcaption>
+          <figcaption className="mt-2 text-center text-sm text-muted">Chibi sketch of me</figcaption>
         </motion.figure>
 
         <div className="space-y-4 text-lg leading-relaxed">
           <p>
-            I’m Rich, a multidisciplinary animator and motion graphics designer based in NYC. With a background in illustration, 3D, and branding, I transform concepts into visually dynamic experiences.
+            I’m Rich, an animator, motion designer and graphic designer based in NYC, working under the name RT.Animation.
           </p>
           <p>
-            Whether I’m designing title sequences, animating character rigs, or crafting traditional frame-by-frame loops, storytelling is always at the core.
+            I work mainly in After Effects, Illustrator and Photoshop, and I also build websites with React. I use AI tools in parts of my process, and I say so on the projects where I do.
           </p>
-          <a href={links.resume} download className="btn mt-2">Download Resume</a>
+          <p>
+            My portfolio is being rebuilt around work I can fully stand behind. Finished projects and concepts are listed separately, so it is always clear what is done and what is still in progress.
+          </p>
+          {links.resume && <a href={links.resume} download className="btn mt-2">Download Resume</a>}
         </div>
       </div>
 
@@ -73,10 +61,7 @@ export default function About() {
             transition={{ delay: 0.15 + i * 0.05, duration: 0.4 }}
           >
             <img src={skill.icon} alt="" width="40" height="40" loading="lazy" className="h-10 w-10 shrink-0 object-contain" />
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-bold">{skill.name}</p>
-              <div className="mt-1.5"><Pips level={skill.level} /></div>
-            </div>
+            <p className="min-w-0 flex-1 truncate font-bold">{skill.name}</p>
           </motion.li>
         ))}
       </ul>

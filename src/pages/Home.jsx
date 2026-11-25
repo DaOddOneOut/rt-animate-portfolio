@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import StyleReel from '../theme/StyleReel';
 import { useStyleEngine } from '../theme/StyleContext';
-import projects from '../data/projects';
+import { realProjects } from '../data/projects';
 import links from '../data/links';
 import { BRAND } from '../data/site';
 
@@ -17,13 +17,27 @@ const frame = {
   background: 'rgb(var(--card))',
 };
 
+// Only finished work is featured on the home page. Concepts stay on the Portfolio page with their labels.
 function LatestWork() {
-  const picks = projects.slice(0, 3);
+  const picks = realProjects.slice(0, 3);
+  if (picks.length === 0) {
+    return (
+      <section aria-labelledby="latest-title" className="mx-auto max-w-6xl px-4 pb-6 pt-8">
+        <div className="card flex flex-wrap items-center justify-between gap-4 p-6">
+          <div>
+            <h2 id="latest-title" className="t-h2 mb-1">New work in progress</h2>
+            <p className="text-muted">Finished projects are being prepared for the portfolio. See what is in development now.</p>
+          </div>
+          <Link to="/projects" className="btn btn-ghost">View portfolio</Link>
+        </div>
+      </section>
+    );
+  }
   return (
     <section aria-labelledby="latest-title" className="mx-auto max-w-6xl px-4 pb-6 pt-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <h2 id="latest-title" className="t-h1">Latest work</h2>
-        <Link to="/projects" className="btn btn-ghost">See all {projects.length} projects</Link>
+        <Link to="/projects" className="btn btn-ghost">View full portfolio</Link>
       </div>
       <ul className="grid gap-6 sm:grid-cols-3">
         {picks.map((p) => (
@@ -52,7 +66,7 @@ export default function Home() {
         <title>{`${BRAND} | Home`}</title>
         <meta
           name="description"
-          content="Rich is a motion designer and animator blending traditional 2D animation with modern design. Explore his latest work."
+          content="Rich is a motion designer and animator blending traditional 2D animation with modern design. Explore his work and projects in development."
         />
       </Helmet>
 
@@ -84,10 +98,12 @@ export default function Home() {
             </button>
           </motion.div>
 
-          <motion.p variants={item} className="mt-5 text-sm text-muted">
-            Looking for my resume?{' '}
-            <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Grab it here</a>
-          </motion.p>
+          {links.resume && (
+            <motion.p variants={item} className="mt-5 text-sm text-muted">
+              Looking for my resume?{' '}
+              <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Grab it here</a>
+            </motion.p>
+          )}
         </motion.div>
 
         <motion.div
