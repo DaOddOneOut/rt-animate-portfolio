@@ -1,5 +1,14 @@
 # Changes
 
+## Phase 1D: RT.Animation Brand Identity case study (local, November 26, 2026)
+
+Not pushed. Wording marked OWNER TO APPROVE in `src/data/projects.js` needs sign-off before the Preview is updated.
+
+- Published **RT.Animation Brand Identity** in Real Projects with a case study at `/projects/rt-animation-brand-identity`: brand overview, creative objective, the official RT. mark, mascot with AI disclosure, color palette and typography, social media applications, role and tools, approved artwork and source files, and a YouTube link. Tagline "Bringing Ideas to Motion."
+- Assets are owner-supplied (RT._Ivory_Gold_Logo.png, Confident_DJ_with_Gold-Trimmed_Headphones.png, RT_Animation_Emblem.png, RT.Animation-Brand-Banner3.png, RT.Animation__Bringing_Ideas_to_Motion_1.png, RT-Animation-email-logo.png), optimized to WebP (about 9.4 MB of PNG down to about 345 KB).
+- Typography is verified from the fonts embedded in RT_Banner.ai (Arial Bold, Arial Bold Italic, Arial; Illustrator 27.4, Windows). The palette is the Brand Asset Register's working palette. The YouTube banner is labeled Concept (final export unconfirmed). RT.ANImation.svg was not used: it is live text in a system font, not outlined artwork.
+- The case-study page gained an ordered `blocks` layout (text, lists, figures, swatches, type samples) and a configurable links heading. The Church Media Pack page is unchanged; Countdown Builder and Raf & Tre stay unpublished.
+
 ## Phase 1C assets: owner-supplied promotional images (November 25, 2026)
 
 Owner-approved; pushed to the PR #4 Preview only.

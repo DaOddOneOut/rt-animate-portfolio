@@ -35,16 +35,110 @@ export const VISUAL_SOURCES = {
 // FEATURED PROJECTS (Website & Portfolio Handoff, Nov 25, 2026).
 // Unpublished until the owner confirms role, tools, status and supplies source media.
 const featured = [
+  // Case study built from the Brand Asset Register v1.1, the Branding & Social Media Handoff,
+  // TEST 008 and owner-supplied files (Nov 26, 2026). Only verified facts; items marked
+  // OWNER TO APPROVE are draft wording awaiting the owner's sign-off.
   {
     slug: 'rt-animation-brand-identity',
     title: 'RT.Animation Brand Identity',
-    status: 'in-development',
-    published: false,
-    summary: 'The RT.Animation identity: the geometric ivory RT. mark with the gold dot, profile icon, banner and mascot (AI-assisted character design under owner creative direction).',
-    role: 'OWNER TO CONFIRM',
-    tools: ['Illustrator'], // owner reported Illustrator assembly; confirm full tool list
+    status: 'real',
+    published: true,
+    summary: 'The visual identity for RT.Animation: the RT. mark, a recurring mascot, a navy, ivory and gold palette, and the banners and icons used across social channels and email.',
+    role: 'Brand concept and creative direction, direction of AI-assisted artwork, Illustrator assembly of the Facebook banner, and rollout across the RT.Animation channels.', // OWNER TO APPROVE
+    tools: ['Adobe Illustrator', 'AI image tools'], // Illustrator verified from RT_Banner.ai; specific AI tools not documented
     aiAssisted: true,
     visual: 'final',
+    imageAlt: 'RT.Animation Facebook banner with the wordmark, tagline, mascot and RT. mark',
+    caseStudy: {
+      tagline: 'Bringing Ideas to Motion.',
+      cover: {
+        caption: 'Facebook banner (2172 × 724), assembled in Adobe Illustrator and in use on the RT.Animation Facebook page.',
+      },
+      blocks: [
+        {
+          id: 'overview',
+          title: 'Brand overview',
+          text: [
+            'RT.Animation is my independent animation and design studio name, with the tagline “Bringing Ideas to Motion.” It covers three areas of work: animation, motion graphics and digital design.',
+            'The identity runs across rtanimate.com, the business email social@rtanimate.com, the RT.Animation Facebook and TikTok pages, the YouTube channel @rtanimateofficial, and my digital products.',
+          ],
+        },
+        {
+          id: 'objective',
+          title: 'Creative objective',
+          // OWNER TO APPROVE
+          text: ['Create one recognizable, consistent identity that works at every size, from a small profile icon to a wide banner, and carries across the website, social channels, email and products.'],
+        },
+        {
+          id: 'logo',
+          title: 'The official RT. mark',
+          text: ['The official logo is the geometric ivory RT. mark with a gold dot, shown on midnight navy. The dot also closes the RT.Animation wordmark.'],
+          figures: [
+            { file: 'logo-mark', caption: 'Official RT. mark: ivory letters with the gold dot, on midnight navy.', wide: true },
+            { file: 'email-logo', caption: 'Square email logo (240 × 240) used with social@rtanimate.com.', small: true },
+          ],
+        },
+        {
+          id: 'mascot',
+          title: 'Mascot',
+          text: [
+            'The RT.Animation mascot is a character with short locks, glasses and a goatee, wearing a black hoodie, a blue shirt and headphones that carry the RT. mark. He appears on the banners alongside the logo.',
+          ],
+          note: 'AI-assisted character design under owner creative direction.',
+          figures: [{ file: 'mascot', caption: 'The RT.Animation mascot, shown on midnight navy.' }],
+        },
+        {
+          id: 'palette',
+          title: 'Color palette and typography',
+          swatches: [
+            { hex: '#0C1729', name: 'Midnight navy' },
+            { hex: '#142B40', name: 'Deep blue' },
+            { hex: '#213A50', name: 'Slate blue' },
+            { hex: '#F3EBDD', name: 'Ivory' },
+            { hex: '#D5B16B', name: 'Muted gold' },
+            { hex: '#F4C578', name: 'Light gold' },
+          ],
+          swatchNote: 'Working palette from the Brand Asset Register, matched to the approved artwork.',
+          type: [
+            { font: 'Arial Bold', use: 'RT.Animation wordmark on the Facebook banner', weight: 700, style: 'normal' },
+            { font: 'Arial Bold Italic', use: 'Tagline “Bringing Ideas to Motion.”', weight: 700, style: 'italic' },
+            { font: 'Arial', use: 'Services line and web address', weight: 400, style: 'normal' },
+          ],
+          typeNote: 'Fonts verified from the embedded fonts in the Illustrator banner file (RT_Banner.ai).',
+        },
+        {
+          id: 'social',
+          title: 'Social media applications',
+          figures: [
+            { file: 'profile-icon', caption: 'Circular gold-rimmed profile icon, in use on RT.Animation social profiles.', small: true },
+            { file: 'youtube-concept', caption: 'YouTube banner concept (AI-generated). Final export and crop not yet confirmed, so it is shown here as a concept.', badge: 'Concept', wide: true },
+          ],
+        },
+        {
+          id: 'role',
+          title: 'My role and tools',
+          role: true,
+          text: ['Adobe Illustrator 27.4 (Windows) is verified as the design tool for the Facebook banner master file. AI image tools were used for parts of the artwork; I directed the work and assembled the final pieces.'],
+        },
+        {
+          id: 'assets',
+          title: 'Approved artwork and source files',
+          list: [
+            'RT. mark, ivory and gold (transparent PNG, 1962 × 802): approved, in use.',
+            'Square email logo (240 × 240): in use with social@rtanimate.com.',
+            'Circular gold-rimmed profile icon (1254 × 1254): in use on social profiles.',
+            'Mascot (transparent PNG, 1122 × 1402): in use on the banners.',
+            'Facebook banner (PNG export, 2172 × 724) and its Illustrator master RT_Banner.ai (Illustrator 27.4, 13 layers): in use.',
+            'YouTube banner (1672 × 941): concept; final export and crop to be confirmed.',
+          ],
+        },
+      ],
+      aiDisclosure: 'Parts of this identity, including the mascot and the YouTube banner concept, were made with AI image tools under my creative direction. I assembled the Facebook banner in Adobe Illustrator.', // OWNER TO APPROVE
+      linksTitle: 'Find RT.Animation',
+      links: [
+        { label: 'Visit RT.Animation on YouTube', href: 'https://www.youtube.com/@rtanimateofficial' },
+      ],
+    },
   },
   // Case study built from the Passive Income & Content Handoff (Nov 25, 2026).
   // Media: Etsy_Main_Photo_v2.png (approved Etsy main photo; an illustrative display mockup, labeled
@@ -224,6 +318,9 @@ const projects = meta
           ...p.caseStudy,
           previews: resolveMedia(p.slug, p.caseStudy.previews),
           overviews: resolveMedia(p.slug, p.caseStudy.overviews),
+          blocks: p.caseStudy.blocks?.length
+            ? p.caseStudy.blocks.map((bl) => ({ ...bl, figures: resolveMedia(p.slug, bl.figures) }))
+            : null,
           videoPoster: p.caseStudy.videoPoster ? firstOf(mediaCtx, `${p.slug}.${p.caseStudy.videoPoster}`, ['.webp', '.png', '.jpg']) : null,
           video: p.caseStudy.video ? firstOf(mediaCtx, `${p.slug}.${p.caseStudy.video}`, ['.mp4', '.webm']) : null,
         }
