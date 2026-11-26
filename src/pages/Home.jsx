@@ -115,7 +115,7 @@ export default function Home() {
           <div className="art-frame px-art relative aspect-square overflow-hidden rounded-full" style={frame}>
             <img
               src="/rt-mascot.webp"
-              alt="RT.Animation mascot: an illustrated character with glasses, headphones and a vest on a city street"
+              alt="RT.Animation mascot: an illustrated character with short locks, glasses, a goatee, a black hoodie and gold-trimmed RT. headphones"
               width="800"
               height="800"
               className="h-full w-full object-cover"

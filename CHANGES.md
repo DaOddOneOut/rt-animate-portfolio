@@ -1,5 +1,14 @@
 # Changes
 
+## Phase 1D owner decisions (November 26, 2026)
+
+Owner-approved; pushed with 270bace to the PR #4 Preview only.
+
+- Brand Identity wording approved. Role: "Brand concept, creative direction, direction of AI-assisted artwork, visual refinement, Adobe Illustrator assembly and rollout across RT.Animation's digital channels." Objective and AI-assisted production approved as written ("AI image tools" kept until specific tools are verified).
+- Official mascot is the hoodie-and-locks character with glasses, goatee and gold-trimmed headphones. It now replaces the earlier vest character on the Home page (`public/rt-mascot.webp`, 800 × 800 on midnight navy). The earlier artwork is kept as an archived character variation (`rt-animation-brand-identity.archived-variation.webp`) and shown with an Archived badge in the case study. The AI-assisted character design disclosure is unchanged.
+- Brand standards kept: official ivory RT. mark with the gold dot, six-color working palette, Arial typography (now verified in RT_Banner.ai and RT_Banner_Master_v2.ai), YouTube banner labeled Concept.
+- Recorded RT_Logo_Outlined.svg (outlined vector, single color) and RT_Banner_Master_v2.ai in the asset list.
+
 ## Phase 1D: RT.Animation Brand Identity case study (local, November 26, 2026)
 
 Not pushed. Wording marked OWNER TO APPROVE in `src/data/projects.js` needs sign-off before the Preview is updated.

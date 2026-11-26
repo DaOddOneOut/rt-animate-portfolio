@@ -36,15 +36,15 @@ export const VISUAL_SOURCES = {
 // Unpublished until the owner confirms role, tools, status and supplies source media.
 const featured = [
   // Case study built from the Brand Asset Register v1.1, the Branding & Social Media Handoff,
-  // TEST 008 and owner-supplied files (Nov 26, 2026). Only verified facts; items marked
-  // OWNER TO APPROVE are draft wording awaiting the owner's sign-off.
+  // TEST 008 and owner-supplied files (Nov 26, 2026). Only verified facts; wording
+  // approved by the owner on Nov 26, 2026.
   {
     slug: 'rt-animation-brand-identity',
     title: 'RT.Animation Brand Identity',
     status: 'real',
     published: true,
     summary: 'The visual identity for RT.Animation: the RT. mark, a recurring mascot, a navy, ivory and gold palette, and the banners and icons used across social channels and email.',
-    role: 'Brand concept and creative direction, direction of AI-assisted artwork, Illustrator assembly of the Facebook banner, and rollout across the RT.Animation channels.', // OWNER TO APPROVE
+    role: "Brand concept, creative direction, direction of AI-assisted artwork, visual refinement, Adobe Illustrator assembly and rollout across RT.Animation's digital channels.", // owner-approved Nov 26, 2026
     tools: ['Adobe Illustrator', 'AI image tools'], // Illustrator verified from RT_Banner.ai; specific AI tools not documented
     aiAssisted: true,
     visual: 'final',
@@ -66,7 +66,7 @@ const featured = [
         {
           id: 'objective',
           title: 'Creative objective',
-          // OWNER TO APPROVE
+          // owner-approved Nov 26, 2026
           text: ['Create one recognizable, consistent identity that works at every size, from a small profile icon to a wide banner, and carries across the website, social channels, email and products.'],
         },
         {
@@ -82,10 +82,14 @@ const featured = [
           id: 'mascot',
           title: 'Mascot',
           text: [
-            'The RT.Animation mascot is a character with short locks, glasses and a goatee, wearing a black hoodie, a blue shirt and headphones that carry the RT. mark. He appears on the banners alongside the logo.',
+            'The primary RT.Animation mascot is a character with short locks, glasses and a goatee, wearing a black hoodie, a blue shirt and gold-trimmed headphones that carry the RT. mark. He appears on the banners alongside the logo and on the home page.',
+            'An earlier version of the character is kept as an archived variation.',
           ],
           note: 'AI-assisted character design under owner creative direction.',
-          figures: [{ file: 'mascot', caption: 'The RT.Animation mascot, shown on midnight navy.' }],
+          figures: [
+            { file: 'mascot', caption: 'Primary RT.Animation mascot, shown on midnight navy.' },
+            { file: 'archived-variation', caption: 'Archived character variation: the earlier version of the mascot, no longer in primary use.', badge: 'Archived', small: true },
+          ],
         },
         {
           id: 'palette',
@@ -104,7 +108,7 @@ const featured = [
             { font: 'Arial Bold Italic', use: 'Tagline “Bringing Ideas to Motion.”', weight: 700, style: 'italic' },
             { font: 'Arial', use: 'Services line and web address', weight: 400, style: 'normal' },
           ],
-          typeNote: 'Fonts verified from the embedded fonts in the Illustrator banner file (RT_Banner.ai).',
+          typeNote: 'Fonts verified from the embedded fonts in the Illustrator banner masters (RT_Banner.ai and RT_Banner_Master_v2.ai).',
         },
         {
           id: 'social',
@@ -127,13 +131,15 @@ const featured = [
             'RT. mark, ivory and gold (transparent PNG, 1962 × 802): approved, in use.',
             'Square email logo (240 × 240): in use with social@rtanimate.com.',
             'Circular gold-rimmed profile icon (1254 × 1254): in use on social profiles.',
-            'Mascot (transparent PNG, 1122 × 1402): in use on the banners.',
-            'Facebook banner (PNG export, 2172 × 724) and its Illustrator master RT_Banner.ai (Illustrator 27.4, 13 layers): in use.',
+            'Primary mascot (transparent PNG, 1122 × 1402): in use on the banners and the home page.',
+            'Facebook banner (PNG export, 2172 × 724), with Illustrator masters RT_Banner.ai and RT_Banner_Master_v2.ai (Illustrator 27.4): in use.',
+            'Outlined vector of the RT. mark (RT_Logo_Outlined.svg, 950.87 × 485.9): received; single-color source for future exports.',
+            'Earlier mascot version: archived character variation.',
             'YouTube banner (1672 × 941): concept; final export and crop to be confirmed.',
           ],
         },
       ],
-      aiDisclosure: 'Parts of this identity, including the mascot and the YouTube banner concept, were made with AI image tools under my creative direction. I assembled the Facebook banner in Adobe Illustrator.', // OWNER TO APPROVE
+      aiDisclosure: 'Parts of this identity, including the mascot and the YouTube banner concept, were made with AI image tools under my creative direction. I assembled the Facebook banner in Adobe Illustrator.', // owner-approved Nov 26, 2026
       linksTitle: 'Find RT.Animation',
       links: [
         { label: 'Visit RT.Animation on YouTube', href: 'https://www.youtube.com/@rtanimateofficial' },
