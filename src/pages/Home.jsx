@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import StyleReel from '../theme/StyleReel';
 import { useStyleEngine } from '../theme/StyleContext';
@@ -53,6 +53,43 @@ function LatestWork() {
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+// Ten versions of the mascot, one per animation style. Clicking one re-skins the whole site in that
+// style; the choice is saved (localStorage, via the style engine) and carries to every page.
+function MascotSwitcher() {
+  const { styles, order, active, mode, busy, setMode } = useStyleEngine();
+  return (
+    <section aria-labelledby="mascot-switch-title" className="mx-auto max-w-6xl px-4 pb-4">
+      <h2 id="mascot-switch-title" className="t-h3 mb-1">Pick a style</h2>
+      <p className="mb-4 text-sm text-muted">Tap a mascot to redraw the whole site in that style. Your pick stays on every page.</p>
+      <ul className="grid grid-cols-5 gap-2 sm:gap-3 lg:grid-cols-10">
+        {order.map((id) => {
+          const on = active === id && mode === id;
+          return (
+            <li key={id}>
+              <button
+                type="button"
+                onClick={() => setMode(id)}
+                disabled={busy}
+                aria-pressed={on}
+                title={styles[id].name}
+                className={`group flex w-full flex-col items-center gap-1 rounded-[var(--btn-radius)] p-1 transition ${on ? 'bg-accent/15 ring-2 ring-accent' : 'hover:bg-accent/10'}`}
+              >
+                <img src={`/mascots/${id}.thumb.webp`} alt="" width="160" height="160" loading="lazy" className="aspect-square w-full transition-transform group-hover:scale-105" />
+                <span className="text-center text-[0.7rem] leading-tight">{styles[id].name}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      {mode !== 'auto' && (
+        <button type="button" className="mt-3 text-sm text-accent-ink underline underline-offset-4" disabled={busy} onClick={() => setMode('auto')}>
+          Back to Auto (a different style on each page)
+        </button>
+      )}
     </section>
   );
 }
@@ -112,18 +149,23 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ type: 'spring', stiffness: 110, damping: 14, delay: 0.2 }}
         >
-          <div className="art-frame px-art relative aspect-square overflow-hidden rounded-full" style={frame}>
-            <img
-              src="/rt-mascot.webp"
-              alt="RT.Animation mascot: an illustrated character with short locks, glasses, a goatee, a black hoodie and gold-trimmed RT. headphones"
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.img
+              key={active}
+              src={`/mascots/${active}.webp`}
+              alt={`RT.Animation mascot drawn in the ${styles[active].name} style: a character with glasses, a goatee, a cream vest, tie and headphones`}
               width="800"
               height="800"
-              className="h-full w-full object-cover"
+              className="relative aspect-square w-full object-contain drop-shadow-[0_10px_18px_rgb(0_0_0/0.18)]"
+              initial={{ opacity: 0, scale: 0.94, rotate: -4 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.94, rotate: 4 }}
+              transition={{ duration: 0.28 }}
             />
-          </div>
+          </AnimatePresence>
 
           <motion.div
-            className="absolute -bottom-5 -left-5 h-28 w-28 overflow-hidden rounded-full sm:h-32 sm:w-32"
+            className="absolute -bottom-5 -left-5 h-24 w-24 overflow-hidden rounded-full sm:h-28 sm:w-28"
             style={frame}
             animate={{ y: [0, -8, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
@@ -131,16 +173,14 @@ export default function Home() {
             <img src="/self-sketch.webp" alt="Chibi vector sketch of Rich" width="800" height="800" className="h-full w-full object-contain" />
           </motion.div>
 
-          <span className="chip chip-on absolute -right-2 top-5 rotate-3 !px-3">One character, two styles</span>
+          <span className="chip chip-on absolute -right-2 top-5 rotate-3 !px-3">One character, ten styles</span>
           <span className="chip absolute left-1/2 top-[-0.9rem] -translate-x-1/2 whitespace-nowrap !px-3" aria-live="polite">
             Now drawn in {styles[active].name}
           </span>
-
-          <p className="absolute inset-x-0 -bottom-14 text-center text-xs text-muted">
-            RT.Animation mascot. AI-assisted character design under owner creative direction.
-          </p>
         </motion.div>
       </section>
+
+      <MascotSwitcher />
 
       <StyleReel />
       <LatestWork />

@@ -28,7 +28,7 @@ export const STATUS = {
 export const VISUAL_SOURCES = {
   final: null, // the image is the real finished work; no extra note
   'work-in-progress': 'Work-in-progress frame. Not final artwork.',
-  'ai-concept': 'Temporary AI-generated concept visual. Not final artwork and not client work.',
+  'ai-concept': 'Temporary concept visual. Not final artwork and not client work.',
   mockup: 'Mockup for presentation. Not a live client deliverable.',
 };
 
@@ -236,15 +236,16 @@ const featured = [
 // Official logo: the geometric ivory RT. mark with the gold dot. Do not use the serif RT or RTA
 // monograms in site assets (the Gemini logo-reveal clip used a serif RT, so it is not included).
 //
-// CONCEPTS & EXPLORATIONS. Gemini-assisted concept previews, not finished or client work.
+// CONCEPTS & EXPLORATIONS. Concept previews, not finished or client work. Per the owner
+// (Nov 27, 2026), AI labels are shown only in the Real Projects section; concepts carry none.
 // Summaries follow the descriptions on the Gemini concept boards. Tools list only what was
 // actually used to make the preview visuals; no animation software is claimed.
 const CONCEPT = {
   status: 'concept',
   published: true,
-  role: 'Concept direction. Preview visuals generated with Google Gemini.', // owner-approved wording
-  tools: ['Google Gemini'],
-  aiAssisted: true,
+  role: 'Concept direction.',
+  tools: [],
+  aiAssisted: false,
   visual: 'ai-concept',
 };
 

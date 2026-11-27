@@ -116,7 +116,7 @@ export default function ProjectsGallery() {
       <Section
         id="concepts"
         title="Concepts & Explorations"
-        intro="Ideas, pitches and work in progress. Visuals here are temporary concept previews, many generated with AI (Google Gemini). They are not finished pieces and not client work."
+        intro="Ideas, pitches and work in progress. Visuals here are temporary concept previews. They are not finished pieces and not client work."
         items={conceptProjects}
         onOpen={open}
         empty="Concept previews will be added here as projects get underway."

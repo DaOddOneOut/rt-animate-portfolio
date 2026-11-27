@@ -41,7 +41,7 @@ export default function About() {
             I’m Rich, an animator, motion designer and graphic designer based in NYC, working under the name RT.Animation.
           </p>
           <p>
-            I work mainly in After Effects, Illustrator and Photoshop, and I also build websites with React. I use AI tools in parts of my process, and I say so on the projects where I do.
+            I work mainly in After Effects, Illustrator and Photoshop, and I also build websites with React.
           </p>
           <p>
             My portfolio is being rebuilt around work I can fully stand behind. Finished projects and concepts are listed separately, so it is always clear what is done and what is still in progress.
