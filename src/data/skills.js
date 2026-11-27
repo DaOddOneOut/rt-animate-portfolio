@@ -1,13 +1,13 @@
+// Tools Rich uses. Only list software he actually works with.
+// Percent / pip proficiency ratings were removed in Phase 1 because they could not be verified.
+// Removed pending owner confirmation: Cinema 4D (icon 4), Blender (icon 5), Premiere Pro (icon 6),
+// Marvelous Designer (icon 9). Add any of them back here if they are accurate.
 const skills = [
-  { name: 'After Effects', level: 95, icon: '/icons/skill_icon_1.webp' },
-  { name: 'Illustrator', level: 90, icon: '/icons/skill_icon_2.webp' },
-  { name: 'Photoshop', level: 88, icon: '/icons/skill_icon_3.webp' },
-  { name: 'Cinema 4D', level: 75, icon: '/icons/skill_icon_4.webp' },
-  { name: 'Blender', level: 70, icon: '/icons/skill_icon_5.webp' },
-  { name: 'Premiere Pro', level: 85, icon: '/icons/skill_icon_6.webp' },
-  { name: 'JavaScript', level: 78, icon: '/icons/skill_icon_7.webp' },
-  { name: 'React.js', level: 72, icon: '/icons/skill_icon_8.webp' },
-  { name: 'Marvelous Designer', level: 60, icon: '/icons/skill_icon_9.webp' }
+  { name: 'After Effects', icon: '/icons/skill_icon_1.webp' },
+  { name: 'Illustrator', icon: '/icons/skill_icon_2.webp' },
+  { name: 'Photoshop', icon: '/icons/skill_icon_3.webp' },
+  { name: 'JavaScript', icon: '/icons/skill_icon_7.webp' },
+  { name: 'React.js', icon: '/icons/skill_icon_8.webp' },
 ];
 
 export default skills;

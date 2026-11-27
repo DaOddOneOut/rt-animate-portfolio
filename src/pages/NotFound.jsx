@@ -2,12 +2,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import { BRAND } from '../data/site';
 
 export default function NotFound() {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-4 py-16 text-center">
       <Helmet>
-        <title>404 | Off-Model Adventure</title>
+        <title>{`404 | ${BRAND}`}</title>
         <meta name="description" content="Oops! This page wandered out of the timeline." />
       </Helmet>
 

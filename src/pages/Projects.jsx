@@ -7,10 +7,10 @@ export default function Projects() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
       <Helmet>
-        <title>{`${BRAND} | Projects`}</title>
+        <title>{`${BRAND} | Portfolio`}</title>
         <meta
           name="description"
-          content="Explore Rich’s animated works — from rigged characters to sound-reactive visuals and frame-by-frame storytelling."
+          content="Rich’s animation and motion design portfolio: finished projects, plus concepts and work in development, each clearly labeled."
         />
       </Helmet>
       <ProjectsGallery />

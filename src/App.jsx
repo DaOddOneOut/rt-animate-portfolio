@@ -18,6 +18,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import CaseStudy from './pages/CaseStudy';
 
 import addInkRipple from './effects/ink-ripple';
 import './index.css';
@@ -96,6 +97,7 @@ function Shell() {
           <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
           <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
           <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
+          <Route path="/projects/:slug" element={<PageWrapper><CaseStudy /></PageWrapper>} />
           <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
           <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
         </Routes>

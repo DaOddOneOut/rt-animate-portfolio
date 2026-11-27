@@ -371,7 +371,8 @@ export const STYLES = {
   },
 };
 
-export const styleForPath = (pathname) => PAGE_STYLES[pathname] || FALLBACK_STYLE;
+export const styleForPath = (pathname) =>
+  PAGE_STYLES[pathname] || (pathname.startsWith('/projects/') ? PAGE_STYLES['/projects'] : FALLBACK_STYLE);
 
 // ---------- engine helpers (DOM side effects live here, not in components) ----------
 

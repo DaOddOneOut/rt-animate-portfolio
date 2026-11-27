@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# RT.Animation Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Source for the RT.Animation portfolio site (Rich Toney, animator and motion designer, NYC).
 
-## Available Scripts
+Built with Create React App, React 18, Tailwind CSS, Framer Motion and React Router. Every page is drawn in one of ten 2D animation styles (see `src/theme/styles.js`).
 
-In the project directory, you can run:
+## Run locally
 
-### `npm start`
+```bash
+npm ci
+npm start          # dev server at http://localhost:3000
+CI=true npm run build   # production build into build/
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Deployment rules
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Every commit pushed to `main` creates a **Vercel Production** deployment.
+- Any other pushed branch can create a **Vercel Preview** deployment.
+- rtanimate.com is served through Hostinger; how it is updated is tracked in the RT.Animation Source of Truth Index.
+- Do not merge or push to `main` without the owner's explicit deployment approval.
 
-### `npm test`
+## Adding portfolio items
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+All portfolio content lives in `src/data/projects.js`. The Portfolio page has two sections:
 
-### `npm run build`
+| Section | Which `status` values | What belongs there |
+|---|---|---|
+| Real Projects | `real` | Finished work Rich made or contributed to, with the rights to show it |
+| Concepts & Explorations | `concept`, `in-development` | Ideas, pitches and unfinished work |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Checklist for every entry:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **`status`** is honest. If the work is not finished, it is not `real`.
+2. **`role`** says what Rich actually did, in plain words. Required for `real` items.
+3. **`tools`** lists only software actually used on that project.
+4. **`aiAssisted: true`** when AI tools helped make the piece. The lightbox then says so.
+5. **`visual`** says where the image comes from: `final`, `work-in-progress`, `ai-concept` or `mockup`. Every value except `final` prints a note on the card and in the lightbox.
+6. **`published: false`** keeps the entry hidden until the owner approves it. Flip it to `true` to show it.
+7. No client names, logos, testimonials or results unless the owner has permission to show them.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Temporary concept visuals (for example, Gemini-generated images)
 
-### `npm run eject`
+These are allowed **only** in the Concepts & Explorations section.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Set `status: 'concept'` (or `'in-development'`) and `visual: 'ai-concept'`.
+2. Export the image as WebP and name it after the slug:
+   - `src/assets/projects/<slug>.webp` (full size, about 1600px wide)
+   - `src/assets/projects/<slug>.card.webp` (thumbnail, about 640px wide, optional)
+   - `src/assets/projects/<slug>.blur.webp` (about 24px wide, optional)
+3. The site then automatically shows:
+   - a **Concept preview** or **In development** badge on the image itself,
+   - the note "Temporary AI-generated concept visual. Not final artwork and not client work.",
+   - the status in the image's alt text.
+4. When the real artwork is ready, replace the files and change `visual` (and `status`, once finished).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Do not put a concept visual on an entry with `status: 'real'`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Change log
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+See [CHANGES.md](CHANGES.md).

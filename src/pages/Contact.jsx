@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import links from '../data/links';
 import { BRAND } from '../data/site';
 
-const FORM_ENDPOINT = 'https://formspree.io/f/xpwdvavv';
+const FORM_ENDPOINT = 'https://formspree.io/f/mwlozzgl';
 
 const validate = (form) => {
   const e = {};
@@ -48,7 +48,7 @@ export default function Contact() {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _subject: 'New message from the RT.Animation website' }),
       });
       if (!res.ok) throw new Error('bad response');
       setStatus('sent');
@@ -59,6 +59,7 @@ export default function Contact() {
   };
 
   const social = [
+    { label: 'YouTube (@rtanimateofficial)', href: links.youtube },
     { label: 'GitHub', href: links.github },
     { label: 'LinkedIn', href: links.linkedin },
     { label: 'ArtStation', href: links.artstation },
@@ -115,15 +116,23 @@ export default function Contact() {
 
       <motion.aside initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="card h-fit p-6">
         <h2 className="t-h3 mb-4">Elsewhere</h2>
+        {links.email && (
+          <p className="mb-4">
+            Business inquiries:{' '}
+            <a href={`mailto:${links.email}`} className="text-accent-ink underline underline-offset-4">{links.email}</a>
+          </p>
+        )}
         <ul className="space-y-3">
           {social.map((l) => (
             <li key={l.label}>
               <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-accent-ink underline underline-offset-4">{l.label}</a>
             </li>
           ))}
-          <li>
-            <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Download my resume</a>
-          </li>
+          {links.resume && (
+            <li>
+              <a href={links.resume} download className="text-accent-ink underline underline-offset-4">Download my resume</a>
+            </li>
+          )}
         </ul>
       </motion.aside>
     </section>

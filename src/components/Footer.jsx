@@ -4,6 +4,8 @@ import links from '../data/links';
 import { BRAND } from '../data/site';
 
 const socials = [
+  { label: 'Email', href: links.email ? `mailto:${links.email}` : '' },
+  { label: 'YouTube', href: links.youtube },
   { label: 'GitHub', href: links.github },
   { label: 'LinkedIn', href: links.linkedin },
   { label: 'ArtStation', href: links.artstation },
@@ -21,7 +23,7 @@ export default function Footer() {
         {socials.length > 0 && (
           <div className="mt-3 flex flex-wrap items-center justify-center gap-5">
             {socials.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:text-accent-ink hover:underline">
+              <a key={l.label} href={l.href} {...(l.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })} className="underline-offset-4 hover:text-accent-ink hover:underline">
                 {l.label}
               </a>
             ))}

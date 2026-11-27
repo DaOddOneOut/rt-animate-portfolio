@@ -11,7 +11,7 @@ import { BRAND } from '../data/site';
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
-  { name: 'Projects', path: '/projects' },
+  { name: 'Portfolio', path: '/projects' },
   { name: 'Contact', path: '/contact' },
 ];
 
@@ -21,7 +21,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const LinkItem = ({ item, onClick, className = '' }) => {
-    const current = pathname === item.path;
+    const current = pathname === item.path || (item.path !== '/' && pathname.startsWith(`${item.path}/`));
     return (
       <Link
         to={item.path}
