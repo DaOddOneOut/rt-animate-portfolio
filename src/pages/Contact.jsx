@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import links from '../data/links';
 import { BRAND } from '../data/site';
 
-const FORM_ENDPOINT = 'https://formspree.io/f/xpwdvavv';
+const FORM_ENDPOINT = 'https://formspree.io/f/mwlozzgl';
 
 const validate = (form) => {
   const e = {};
@@ -48,7 +48,7 @@ export default function Contact() {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _subject: 'New message from the RT.Animation website' }),
       });
       if (!res.ok) throw new Error('bad response');
       setStatus('sent');
